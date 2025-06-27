@@ -1,0 +1,933 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>CraftCoreMC</title>
+
+  <style>
+  .anarchiaffa-title {
+  width: 570px;   /* szerokość napisu */
+  top: -30px;     /* wysokość nad kartą (bardziej minus = wyżej) */
+}
+  
+
+  .game-title-img {
+  position: absolute;
+  top: -38px;      /* możesz zmieniać! */
+  left: 50%;
+  transform: translateX(-50%);
+  width: 350px;    /* lub inna szerokość */
+  height: auto;
+  z-index: 3;
+  pointer-events: none;
+  user-select: none;
+}
+ .gamemode-grid {
+  display: flex;
+  gap: 3.3rem;
+  justify-content: center;
+  flex-wrap: wrap;
+  margin-bottom: 5.5rem;
+}
+
+/* Każdej karcie osobno możesz dać klasę np. left i right, wtedy: */
+.card-game.left {
+  margin-left: 10px;
+}
+.card-game.right {
+  margin-right: 10px;
+}
+
+.card-game {
+  width: 460px;
+  background: none !important;
+  border: none !important;
+  box-shadow: none !important;
+  padding: 0 !important;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+     
+}
+
+.game-img-container {
+  position: relative;
+  width: 100%;        /* <--- BYŁO 90% */
+  height: 288px;
+  background: #2a1651;
+  border: 2px solid #a78bfa;
+  border-radius: 11px 11px 22px 22px;
+  overflow: visible;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-end;
+  padding-top: 22px;
+  min-width: 460px;
+min-height: 288px;
+}
+
+.game-img {
+  position: absolute;
+  top: 0; left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 11px 11px 22px 22px;
+  filter: brightness(1.05) drop-shadow(0 0 18px #a78bfa77);
+  z-index: 1;
+  object-position: 80%;
+}
+
+.game-title {
+  position: absolute;
+  top: -18px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 100%;          /* <--- BYŁO 90% */
+  text-align: center;
+  font-size: 2.1rem;
+  font-family: 'Minecraftia', monospace;
+  color: #a78bfa;
+  text-shadow: 0 0 8px #fff, 0 0 14px #a78bfa;
+  z-index: 3;
+  letter-spacing: 0.07em;
+  font-weight: bold;
+  pointer-events: none;
+  user-select: none;
+  white-space: nowrap;
+  overflow: hidden;
+}
+
+.btn-choose {
+  position: absolute;
+  left: 50%;
+  bottom: -52px;
+  transform: translateX(-50%);
+  min-width: 270px;
+  font-size: 1.41rem;
+  padding: 1.15rem 0.8rem 1.05rem 0.8rem;
+  background: #a78bfa;
+  background-image: url('data:image/svg+xml;utf8,<svg width="260" height="70" viewBox="0 0 260 70" fill="none" xmlns="http://www.w3.org/2000/svg"><rect x="0" y="0" width="52" height="35" fill="%23563a7c"/><rect x="52" y="0" width="52" height="35" fill="%235b407f"/><rect x="104" y="0" width="52" height="35" fill="%23533a78"/><rect x="156" y="0" width="52" height="35" fill="%235d437f"/><rect x="208" y="0" width="52" height="35" fill="%2358417b"/><rect x="0" y="35" width="52" height="35" fill="%235b407f"/><rect x="52" y="35" width="52" height="35" fill="%2358417b"/><rect x="104" y="35" width="52" height="35" fill="%23563a7c"/><rect x="156" y="35" width="52" height="35" fill="%23533a78"/><rect x="208" y="35" width="52" height="35" fill="%235d437f"/></svg>');
+  background-size: cover;
+  border-radius: 12px;
+  border: none;
+  color: #fff;
+  font-family: 'Minecraftia', monospace;
+  letter-spacing: 2px;
+  box-shadow: 0 0 24px #a78bfa, 0 0 52px #9333ea;
+  text-shadow: 0 0 10px #fff, 0 0 18px #a78bfa;
+  cursor: pointer;
+  z-index: 5;
+  transition: 0.18s;
+}
+
+.btn-choose:hover {
+  filter: brightness(1.22);
+  box-shadow: 0 0 34px #a78bfa, 0 0 55px #9333ea;
+}
+
+/* RESPONSIVE - na telefony */
+@media (max-width: 900px) {
+  .gamemode-grid { flex-direction: column; gap: 2.4rem;}
+  .card-game { width: 94vw; max-width: 410px; }
+  .game-title { font-size: 1.7rem; top: -29px;}
+  .game-img-container { height: 138px;}
+  .btn-choose { min-width: 162px; font-size: 0.98rem; bottom: -17px;}
+}
+  
+body {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+.main-content {
+  flex: 1 0 auto; /* Rozpycha stronę, żeby stopka była na dole */
+}
+
+.custom-footer {
+  width: 100%;
+  font-family: 'Minecraftia', monospace;
+  color: #fff;
+  margin-top: 16rem;      /* ODSTĘP NAD STOPKĄ */
+  padding-bottom: 1.9rem; /* ODSTĘP NA DOLE, NIE PRZESADZAJ! */
+  background: none;
+}
+
+.footer-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  max-width: 1200px;
+  margin: 0 auto 0.8rem auto;
+  padding: 0 2.5vw;
+  gap: 3vw;
+}
+
+.footer-main {
+  display: flex;
+  align-items: center;
+  gap: 1.7rem;
+}
+
+.footer-logo {
+  width: 88px;
+  height: 88px;
+  object-fit: contain;
+  image-rendering: pixelated;
+  filter: drop-shadow(0 0 14px #a78bfa);
+}
+
+.footer-copyright {
+  font-size: 1.19rem;
+  font-weight: bold;
+  letter-spacing: 1.15px;
+  text-shadow: 0 0 7px #a78bfa;
+  white-space: nowrap;
+}
+
+.footer-socials {
+  display: flex;
+  align-items: center;
+  gap: 0.45rem;
+}
+.footer-socials a img {
+  width: 33px;
+  height: 33px;
+  margin: 0 0.22rem;
+  transition: filter .2s;
+  filter: none;          /* <-- brak efektu glow */
+  vertical-align: middle;
+}
+.footer-socials a:hover img {
+  filter: brightness(1.25) drop-shadow(0 0 13px #a78bfa);
+}
+.footer-social-label {
+  font-size: 1.13rem;
+  color: #fff;
+  letter-spacing: 0.09em;
+  margin-left: 1rem;
+  font-family: 'Minecraftia', monospace;
+  text-shadow: 0 0 7px #a78bfa;
+  font-weight: bold;
+}
+
+.footer-bottom {
+  text-align: center;
+  font-size: 1.05rem;
+  color: #bbb;
+  line-height: 1.5;
+  letter-spacing: 1.07px;
+  max-width: 900px;
+  margin: 0 auto;
+}
+.footer-bottom > div {
+  margin: 2px 0;
+}
+
+/* Mobilna stopka */
+@media (max-width: 700px) {
+  .footer-top {
+    flex-direction: column;
+    align-items: center;
+    gap: 1.2rem;
+    padding: 0 1vw;
+  }
+  .footer-copyright { font-size: 0.82rem;}
+  .footer-socials a img { width: 26px; height: 26px; }
+  .footer-social-label { font-size: 0.83rem;}
+  .footer-logo { width: 48px; height: 48px;}
+}
+
+  
+  @keyframes twinkle {
+  0%, 100% { opacity: 0.85; }
+  50% { opacity: 1; }
+}
+.star { animation: twinkle 2.4s infinite ease-in-out; }
+
+  .star {
+  position: absolute;
+  width: 8px;
+  height: 8px;
+  pointer-events: none;
+  z-index: 1;
+}
+
+.star-dot {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 5px;
+  height: 5px;
+  background: white;
+  border-radius: 50%;
+  transform: translate(-50%, -50%);
+  box-shadow: 0 0 7px 2px #fff, 0 0 13px 4px #b6c8ff;
+  opacity: 0.7;
+}
+
+.star::before, .star::after {
+  content: '';
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  background: white;
+  border-radius: 1px;
+  opacity: 0.19;      /* klucz! bardzo niska przezroczystość */
+  box-shadow: 0 0 2px 0.5px #fff, 0 0 4px 1px #b6c8ff;
+  transform: translate(-50%, -50%);
+}
+
+.star::before {
+  width: 10px;
+  height: 1.2px;
+}
+
+.star::after {
+  width: 1.2px;
+  height: 10px;
+}
+  .hero-row {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 36px;      /* Odległość między przyciskiem a Discord boxem */
+  margin-top: 2.1rem;
+  margin-bottom: 11rem;
+}
+
+.discord-box {
+  display: flex;
+  align-items: center;
+  background: none;
+  box-shadow: none;
+  border: none;
+  gap: 8px;
+  font-family: 'Minecraftia', monospace;
+  padding: 0;
+  cursor: pointer;
+  transition: filter .2s;
+}
+
+.discord-box:hover {
+  filter: brightness(1.2) drop-shadow(0 0 8px #a78bfa);
+}
+
+.discord-icon {
+  width: 28px;
+  height: 28px;
+  image-rendering: pixelated;
+  display: block;
+}
+
+.discord-text {
+  display: flex;
+  flex-direction: column;
+  line-height: 1.1;
+  margin-left: 12px;
+}
+
+.discord-text span {
+  color: white;
+  font-size: 1.1rem;
+  letter-spacing: 1px;
+  margin: 0;
+  padding: 0;
+}
+
+.discord-bold {
+  color: #9333ea;
+  font-weight: bold;
+  font-size: 1.1rem;
+  text-shadow: 0 0 8px #a78bfa, 0 0 12px #9333ea;
+  letter-spacing: 1.2px;
+}
+  
+.nav-col.left,
+.nav-col.right {
+  display: flex;
+  justify-content: flex-start;
+}
+.nav-col.right {
+  justify-content: flex-end;
+}
+.nav-col.center {
+  display: flex;
+  justify-content: center;
+}
+.nav-bar button {
+  /* twoje dotychczasowe style */
+  font-size: 1.6rem;
+  padding: 0.88rem 2.2rem;
+  border-radius: 10px;
+  font-weight: bold;
+  background: none;
+  border: none;
+  color: #fff;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+.nav-bar .active {
+  background-color: #9333ea;
+  border: 3px solid #a855f7;
+  box-shadow:
+    0 0 11px #a855f7,
+    0 0 20px #9333ea,
+    0 0 32px #a855f7;
+  text-shadow: 0 0 4px #fff, 0 0 11px #a855f7;
+  color: white;
+}
+  @font-face {
+  font-family: 'Minecraftia';
+  src: url('assets/MinecraftRegular-Bmg3.otf') format('opentype');
+  font-weight: normal;
+  font-style: normal;
+}
+
+body, html, h1, h2, h3, h4, h5, h6, button, p, span, div, a {
+  font-family: 'Minecraftia', monospace !important;
+}
+
+  .planet.floating {
+  background: none !important;
+  animation: floatplanet 3s ease-in-out infinite alternate;
+}
+@keyframes floatplanet {
+  0% { transform: translateY(0); }
+  100% { transform: translateY(30px); }
+}
+
+.planet.floating {
+  width: 207px;
+  height: 207px;
+  animation: floatplanet 7s steps(9999999999, end) infinite alternate;
+}
+    body {
+
+       background: linear-gradient(180deg, #0a0a0a 0%, #1a1a2e 55%, #0a0a0a 100%);
+      color: white;
+      scroll-behavior: smooth;
+      margin: 0;
+      padding: 0;
+    }
+    .nav-bar {
+      width: 100%;
+      display: flex;
+      justify-content: center;
+      gap: 2.8rem;
+      padding: 2rem 0 0.5rem 0;
+      font-size: 1.6rem;
+    }
+    .nav-bar button {
+      background: none;
+      border: none;
+      font-size: 1.6rem;
+      padding: 0.88rem 2.2rem;
+      cursor: pointer;
+      color: #fff;
+      transition: all 0.3s ease;
+      border-radius: 10px;
+      font-weight: bold;
+    }
+    .nav-bar .active {
+      background-color: #9333ea;
+      border: 3px solid #a855f7;
+      box-shadow:
+        0 0 11px #a855f7,
+        0 0 20px #9333ea,
+        0 0 32px #a855f7;
+      text-shadow: 0 0 4px #fff, 0 0 11px #a855f7;
+      color: white;
+    }
+    .hero {
+      text-align: center;
+      padding: 5.6rem 2rem 2rem 2rem;
+      max-width: 100vw;
+    }
+    .player-counter-pixel {
+      background-color: #1e1b3a;
+      border: 2px solid #3f1d87;
+      color: white;
+      display: inline-block;
+      padding: 19px 39px;
+      margin-bottom: 2.7rem;
+      margin-top: 1.1rem;
+      box-shadow: 0 0 21px 3px #481bc6, inset 0 0 0 1px rgba(255,255,255,0.06);
+      font-size: 1.68rem;
+      border-radius: 10px;
+    }
+    .pixel-number {
+      color: #a78bfa;
+      margin-right: 12px;
+      font-size: 1.92rem;
+      font-weight: bold;
+    }
+    /* LOGO --- neon effect, 20% smaller, no background */
+    .logo {
+      margin: 0 auto 2.4rem;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      width: 352px;
+      height: 256px;
+      background: transparent !important;
+    }
+    .logo img {
+      width: 100%;
+      height: auto;
+      display: block;
+      background: none !important;
+      border: none;
+      border-radius: 0;   /* NO CORNER! */
+      /* NEON GLOW */
+      filter: drop-shadow(0 0 30px #a855f7) drop-shadow(0 0 60px #9333ea) drop-shadow(0 0 120px #9333ea);
+      image-rendering: pixelated;
+    }
+    .hero h2 {
+      margin: 0 0 2rem 0;
+      font-size: 2.2rem;
+      font-weight: 900;
+      text-shadow: 0 0 14px #fff, 0 0 21px #a855f7;
+      letter-spacing: 2.2px;
+    }
+    .hero-buttons {
+      margin: 2rem 0 1.1rem 0;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 2.4rem;
+    }
+    .btn-purple {
+	  background-image: url('data:image/svg+xml;utf8,<svg width="200" height="70" viewBox="0 0 200 70" fill="none" xmlns="http://www.w3.org/2000/svg"><rect x="0" y="0" width="40" height="35" fill="%23563a7c"/><rect x="40" y="0" width="40" height="35" fill="%235b407f"/><rect x="80" y="0" width="40" height="35" fill="%23533a78"/><rect x="120" y="0" width="40" height="35" fill="%235d437f"/><rect x="160" y="0" width="40" height="35" fill="%2358417b"/><rect x="0" y="35" width="40" height="35" fill="%235b407f"/><rect x="40" y="35" width="40" height="35" fill="%2358417b"/><rect x="80" y="35" width="40" height="35" fill="%23563a7c"/><rect x="120" y="35" width="40" height="35" fill="%23533a78"/><rect x="160" y="35" width="40" height="35" fill="%235d437f"/></svg>');
+  background-size: cover;
+  border-radius: 8px;
+  border: none;
+  color: white;
+  font-family: 'Press Start 2P', monospace;
+  font-size: 16px;
+  padding: 16px 32px;
+  cursor: pointer;
+      background-color: #9333ea;
+      border: 3px solid #a855f7;
+      color: white;
+      padding: 1.2rem 2.8rem;
+      margin: 0.5rem;
+      box-shadow:
+        0 0 17px #a855f7,
+        0 0 40px #9333ea;
+      cursor: pointer;
+      font-size: 1.6rem;
+      font-weight: bold;
+      border-radius: 12px;
+      letter-spacing: 2px;
+      transition: all 0.2s;
+      text-shadow: 0 0 7px #fff;
+    }
+    .btn-purple:hover {
+      background: #7e22ce;
+      box-shadow: 0 0 26px #a855f7, 0 0 41px #9333ea;
+    }
+    .server-ip {
+      font-size: 1.7rem;
+      font-weight: bold;
+      color: #9333ea;
+      margin-top: 1.1rem;
+    }
+    .server-ip span {
+      color: #60a5fa;
+    }
+    .gamemodes {
+  padding-top: 0.7rem;
+}
+.gamemodes h3 {
+  margin-top: 0.1em;
+  margin-bottom: 0.4em;
+  font-size: 4.5rem;
+}
+.gamemodes p {
+  margin-top: 0;
+  margin-bottom: 9.5rem;
+font-size: 1.5rem;
+}
+    
+    .card {
+      background: rgba(30, 41, 59, 0.7);
+      border: 2px solid rgba(168, 85, 247, 0.5);
+      padding: 1.8rem;
+      transition: 0.3s ease;
+      font-size: 1.1rem;
+      border-radius: 11px;
+    }
+    .card:hover {
+      transform: scale(1.05);
+      box-shadow: 0 0 20px rgba(168, 85, 247, 0.7);
+    }
+    .gif {
+      background: linear-gradient(to bottom right, #7e22ce, #581c87);
+      padding: 2.3rem;
+      margin-bottom: 1rem;
+      font-weight: bold;
+      border-radius: 9px;
+      font-size: 1.6rem;
+      box-shadow: 0 0 12px #a78bfa;
+    }
+    .footer {
+      text-align: center;
+      padding: 3.2rem 1rem;
+      border-top: 2px solid rgba(168, 85, 247, 0.3);
+      font-size: 1.4rem;
+      letter-spacing: 2px;
+    }
+    .footer .logo {
+      width: 48px;
+      height: 48px;
+      margin: 0 auto 1rem;
+      background-color: #9333ea;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1rem;
+      color: white;
+      border-radius: 10px;
+      box-shadow: 0 0 10px #9333ea;
+    }
+    .socials {
+      margin: 1rem 0;
+      display: flex;
+      justify-content: center;
+      gap: 1.4rem;
+      font-size: 1.6rem;
+    }
+    .background {
+      position: absolute;
+      inset: 0;
+      z-index: 0;
+      pointer-events: none;
+    }
+    .star {
+      position: absolute;
+      width: 14px;
+      height: 14px;
+      border-radius: 50%;
+      animation: pulse 2s infinite ease-in-out;
+      image-rendering: pixelated;
+    }
+    .star.gold { background: white; }
+    .star.blue { background: #d8f3fd; }
+    .planet {
+      position: absolute;
+      width: 207px;
+      height: 207px;
+      border-radius: 50%;
+      animation: pulse 3s infinite ease-in-out;
+      image-rendering: pixelated;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      font-size: 1rem;
+      font-weight: bold;
+      color: white;
+	  }
+.moon-orbit {
+  position: absolute;
+  width: 40px;   /* lub ile chcesz */
+  height: 40px;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  pointer-events: none;
+  image-rendering: auto;
+  z-index: 2;
+}
+    }
+    @keyframes pulse {
+      0%, 100% { opacity: 0.8; transform: scale(1); }
+      50% { opacity: 1; transform: scale(1.15); }
+    }
+    @media (max-width: 900px) {
+      .nav-bar { font-size: 1rem; gap: 0.9rem; }
+      .nav-bar button, .btn-purple { font-size: 0.8rem; padding: 0.5rem 1rem;}
+      .logo { width: 60vw; height: auto; }
+      .logo img { width: 60vw; max-width: 220px; }
+      .player-counter-pixel { font-size: 0.8rem; padding: 7px 12px;}
+      .hero h2 { font-size: 1rem;}
+      .footer { font-size: 0.7rem; }
+      .footer .logo { width: 26px; height: 26px; font-size: 0.6rem; }
+    }
+	
+}
+.game-title-img {
+  position: absolute;
+  top: -38px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 350px;
+  height: auto;
+  z-index: 3;
+  pointer-events: none;
+  user-select: none;
+}
+
+/* Dla każdego napisu OSOBNO zmieniasz co chcesz: */
+.boxpvp-title {
+  width: 280px !important;    /* szerokość napisu */
+  top: -40px !important;      /* wysokość (ujemna = wyżej) */
+  left: 50% !important;       /* przesuwasz w lewo/prawo (domyślnie 50%) */
+}
+
+.anarchiaffa-title {
+  width: 440px !important;
+  top: -40px !important;
+  left: 50% !important;
+}
+
+.earthsmp-title {
+  width: 330px !important;
+  top: -35px !important;
+  left: 50% !important;
+}
+
+
+
+
+
+@keyframes neonPulse {
+  0%, 100% {
+    text-shadow: 0 0 5px #9333ea, 0 0 10px #a855f7, 0 0 20px #9333ea;
+    opacity: 10;
+  }
+  50% {
+    text-shadow: 0 0 1px #9333ea, 0 0 3px #a855f7, 0 0 6px #9333ea;
+    opacity: 0.8;
+  }
+}
+
+.creator-tag {
+  position: absolute;
+  text-align: center;
+  font-size: 6.6rem;
+  color: #00030;
+  font-weight: 100;
+  letter-spacing: 7px;
+  font-family: 'Minecraftia', monospace;
+  margin-top: 3.5rem;
+  margin-bottom: -15rem;
+  animation: neonPulse 1s infinite ease-in-out;
+  white-space: nowrap; /* 🚫 NIE ZAWIJA TEKSTU NA DRUGI RZĄD */
+   margin-left: -800px;
+}
+ 
+
+
+
+
+
+
+ </style>
+  
+</head>
+<body>
+<div class="main-content">
+
+  <div class="background">
+  <div class="star" style="top:60px; left:140px;"></div>
+<div class="star" style="top:200px; left:320px;"></div>
+<div class="star" style="top:350px; left:80px;"></div>
+<div class="star" style="top:120px; right:100px;"></div>
+<div class="star" style="top:200px; right:130px;"></div>
+<div class="star" style="top:950px; left:140px;"></div>
+<div class="star" style="top:850px; left:1050px;"></div>
+<div class="star" style="top:1260px; left:340px;"></div>
+<div class="star" style="top:1260px; left:1640px;"></div>
+<div class="star" style="top:460px; left:1440px;"></div>
+
+    
+<div class="planet floating" style="top: 200px; left: 160px;">
+  <img src="assets/planeta1.png" alt="Planeta 1" style="width:100%;height:100%;image-rendering:auto;">
+  <img class="moon-orbit" src="assets/moon.png" alt="Księżyc">
+</div>
+<div class="planet floating" style="bottom: 100px; right: 160px; animation-delay:2s;">
+  <img src="assets/planeta2.png" alt="Planeta 2" style="width:100%;height:100%;image-rendering:auto;">
+</div>
+<div class="planet floating" style="top: 1750px; left: 50px;">
+  <img src="assets/planeta3.png" alt="Jowisz" style="width:80%;height:80%;image-rendering:auto;">
+</div>
+
+  </div>
+
+  <nav class="nav-bar">
+  <div class="nav-col left">
+    <button onclick="location.reload()">STARTUJEMY</button>
+  </div>
+  <div class="nav-col center">
+    <button class="active" onclick="scrollToSection('gamemodes')">SKLEP</button>
+  </div>
+  <div class="nav-col right">
+    <button onclick="openLink('https://discord.gg/xQfb8zCF')">DISCORD</button>
+  </div>
+</nav>
+
+  <section class="hero">
+    <div class="player-counter-pixel">
+      <span>
+        <span class="pixel-number" id="online-count">...</span>
+        <span id="online-label">GRACZY ONLINE</span>
+      </span>
+    </div>
+    <div class="logo">
+      
+      <img src="assets/logo.png" alt="Logo serwera" />
+    </div>
+    <h2 style="margin-top:8rem;">DOLACZ DO NIESAMOWITEGO SWIATA!</h2>
+
+    <div class="hero-row">
+  <button onclick="copyIP()" class="btn-purple">SKOPIUJ IP</button>
+  <a href="https://discord.gg/xQfb8zCF" target="_blank" class="discord-box" style="text-decoration:none;">
+    <img src="assets/discord.png" alt="Discord" class="discord-icon">
+    <div class="discord-text">
+      <span>DOLACZ DO</span>
+      <span class="discord-bold">SPOLECZNOSCI</span>
+    </div>
+	
+
+
+
+
+	<div class="creator-tag">
+  𝗠𝗔𝗗𝗘 𝗕𝗬: 𝗠𝗟𝗢𝗗𝗬 𝗚_𝗟𝗢𝗨𝗗𝟲
+</div>
+
+
+
+
+
+
+  </a>
+</div>
+
+    
+
+  <!-- ...sekcja HERO zostaje BEZ zmian... -->
+
+  <section id="gamemodes" class="gamemodes">
+  <h3>WYBIERZ TRYB</h3>
+  <p>NA KTORYM CHCESZ DOKONAC ZAKUPU!</p>
+  <div class="gamemode-grid">
+  <div class="card card-game left">
+  <div class="game-img-container">
+    <img src="assets/boxpvp.png" alt="BOXPVP" class="game-img">
+    <img src="assets/boxpvp1.png" alt="BOXPVP" class="game-title-img boxpvp-title">
+    <button class="btn-choose" onclick="window.location.href='boxpvp.html'">WYBIERZ</button>
+  </div>
+</div>
+<div class="card card-game">
+  <div class="game-img-container">
+    <img src="assets/anarchia.png" alt="AnarchiaFFA" class="game-img">
+    <img src="assets/anarchiaffa1.png" alt="AnarchiaFFA" class="game-title-img anarchiaffa-title">
+    <button class="btn-choose" onclick="window.location.href='anarchiaffa.html'">WYBIERZ</button>
+  </div>
+</div>
+<div class="card card-game right">
+  <div class="game-img-container">
+    <img src="assets/earthsmp.png" alt="EarthSMP" class="game-img">
+    <img src="assets/earthsmp1.png" alt="EarthSMP" class="game-title-img earthsmp-title">
+<button class="btn-choose" onclick="window.location.href='earthsmp.html'">WYBIERZ</button>
+  </div>
+</div>
+</section>
+
+  <!-- ... reszta jak wcześniej ... -->
+<footer class="custom-footer">
+  <div class="footer-top">
+    <div class="footer-main">
+      <img src="assets/logo.png" alt="Logo" class="footer-logo" />
+      <span class="footer-copyright">
+        © CRAFTCOREMC.PL WSZELKIE PRAWA ZASTRZEŻONE.
+      </span>
+    </div>
+    <div class="footer-socials">
+  <a href="https://instagram.com" target="_blank" rel="noopener">
+    <img src="assets/instagram.png" alt="Instagram">
+  </a>
+  <a href="https://tiktok.com" target="_blank" rel="noopener">
+    <img src="assets/tiktok.png" alt="TikTok">
+  </a>
+  <a href="https://facebook.com" target="_blank" rel="noopener">
+    <img src="assets/facebook.png" alt="Facebook">
+  </a>
+  <div class="footer-contact">SOCIAL MEDIA</div>
+</div>
+  </div>
+  <div class="footer-bottom">
+    <div>PL – SERWER CRAFTCOREMC.PL NIE JEST POWIĄZANY Z FIRMĄ MOJANG LUB MICROSOFT.</div>
+    <div>EN – CRAFTCOREMC.PL SERVER IS NOT ASSOCIATED WITH MOJANG OR MICROSOFT IN ANY WAY.</div>
+  </div>
+</footer>
+
+  <script>
+  
+  function copyIP() {
+    navigator.clipboard.writeText("craftcoremc.pl").then(() => {
+      snackbar("IP serwera skopiowany!");
+    });
+  }
+
+  function openLink(url) {
+    window.open(url, '_blank');
+  }
+
+  function scrollToSection(id) {
+    const section = document.getElementById(id);
+    if (section) {
+      section.scrollIntoView({behavior: 'smooth'});
+    }
+  }
+
+  const moon = document.querySelector('.moon-orbit');
+  let moonAngle = 0;
+  const moonOrbitRadius = 162;
+  function animateMoon() {
+    moonAngle += 0.0025;
+    const x = Math.cos(moonAngle) * moonOrbitRadius;
+    const y = Math.sin(moonAngle) * moonOrbitRadius;
+    if (moon) moon.style.transform = `translate(-50%, -50%) translate(${x}px, ${y}px)`;
+    requestAnimationFrame(animateMoon);
+  }
+  if (moon) animateMoon();
+
+ 
+  function updatePlayerCount() {
+    fetch("http://localhost:3000/players")
+      .then(response => response.json())
+      .then(data => {
+        // Twoj backend zwraca: { online: X, max: Y }
+        const online = typeof data.online === "number" ? data.online : 0;
+        document.getElementById("online-count").textContent = online;
+        document.getElementById("online-label").textContent =
+          online === 1 ? "GRACZ ONLINE" : "GRACZY ONLINE";
+      })
+      .catch(() => {
+        document.getElementById("online-count").textContent = "?";
+        document.getElementById("online-label").textContent = "GRACZY ONLINE";
+      });
+  }
+  updatePlayerCount();
+  setInterval(updatePlayerCount, 5000); // 
+  window.addEventListener('DOMContentLoaded', () => {
+  if (window.location.hash) {
+    const section = document.querySelector(window.location.hash);
+    if (section) {
+      section.scrollIntoView({behavior: 'smooth'});
+    }
+  }
+});
+</script>
+</body>
+</html>
