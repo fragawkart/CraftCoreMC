@@ -723,6 +723,17 @@ img {
   max-width: 100%;
   height: auto;
 }
+	@media (max-width: 768px) {
+  .hero-row { flex-direction: column; gap: 1rem; }
+  .gamemode-grid { flex-direction: column; gap: 2rem; }
+  .card-game { width: 100%; max-width: none; }
+  .btn-choose { position: static; transform: none; margin-top: 0.5rem; }
+  .footer-top { flex-direction: column; gap: 1.5rem; }
+}
+
+@media (max-width: 480px) {
+  .nav-bar button { padding: 0.6rem 1rem; }
+}
 
 
 .hero h2 {
