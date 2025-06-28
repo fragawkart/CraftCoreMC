@@ -1,0 +1,669 @@
+
+<!DOCTYPE html>
+
+<html lang="pl">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1" name="viewport"/>
+<title>BOXPVP</title>
+<style>
+html, body {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  min-height: 100vh;      /* Działa na wszystkich przeglądarkach */
+  display: flex;
+  flex-direction: column;
+  background: linear-gradient(180deg, #0a0a0a 0%, #1a1a2e 55%, #0a0a0a 100%);
+  color: white;
+  font-family: 'Minecraftia', monospace !important;
+}
+
+.main-content {
+  flex: 1 0 auto;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Stopka przyklejona do dołu */
+.custom-footer {
+  margin-top: auto !important;
+  width: 100%;
+  background: none;
+  color: #fff;
+  font-family: 'Minecraftia', monospace;
+  text-align: center;
+  padding: 17rem 0 1rem 0;
+  box-sizing: border-box;
+}
+
+/* ------ CAŁA RESZTA TWOJEGO CSS BEZ ZMIAN ------ */
+.anarchiaffa-title {
+  width: 29.6875vw;
+  top: -1.5625vw;
+}
+
+.game-title-img {
+  position: absolute;
+  top: -1.9792vw;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 18.2292vw;
+  height: auto;
+  z-index: 3;
+  pointer-events: none;
+  user-select: none;
+}
+.gamemode-grid {
+  display: flex;
+  gap: 3.3rem;
+  justify-content: center;
+  flex-wrap: wrap;
+  margin-bottom: 5.5rem;
+}
+
+
+.footer-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  max-width: 62.5vw;
+  margin: 0 auto 0.8rem auto;
+  padding: 0 2.5vw;
+  gap: 3vw;
+}
+.footer-main {
+  display: flex;
+  align-items: center;
+  gap: 1.7rem;
+}
+.footer-logo {
+  width: 4.5833vw;
+  height: 4.5833vw;
+  object-fit: contain;
+  image-rendering: auto;
+  filter: drop-shadow(0 0 0.7292vw #a78bfa);
+}
+.footer-copyright {
+  font-size: 1.19rem;
+  font-weight: bold;
+  letter-spacing: 0.0599vw;
+  text-shadow: 0 0 0.3646vw #a78bfa;
+  white-space: nowrap;
+}
+.footer-socials {
+  display: flex;
+  align-items: center;
+  gap: 0.45rem;
+}
+.footer-socials a img {
+  width: 1.7188vw;
+  height: 1.7188vw;
+  margin: 0 0.22rem;
+  transition: filter .2s;
+  filter: none;
+  vertical-align: middle;
+}
+.footer-socials a:hover img {
+  filter: brightness(1.25) drop-shadow(0 0 0.6771vw #a78bfa);
+}
+.footer-social-label {
+  font-size: 1.13rem;
+  color: #fff;
+  letter-spacing: 0.09em;
+  margin-left: 1rem;
+  font-family: 'Minecraftia', monospace;
+  text-shadow: 0 0 0.3646vw #a78bfa;
+  font-weight: bold;
+}
+.footer-bottom {
+  text-align: center;
+  font-size: 1.05rem;
+  color: #bbb;
+  line-height: 1.5;
+  letter-spacing: 0.0557vw;
+  max-width: 46.875vw;
+  margin: 0 auto;
+}
+.footer-bottom > div {
+  margin: 0.1042vw 0;
+}
+@media (max-width: 36.4583vw) {
+  .footer-top {
+    flex-direction: column;
+    align-items: center;
+    gap: 1.2rem;
+    padding: 0 1vw;
+  }
+  .footer-copyright { font-size: 0.82rem;}
+  .footer-socials a img { width: 1.3542vw; height: 1.3542vw; }
+  .footer-social-label { font-size: 0.83rem;}
+  .footer-logo { width: 2.5vw; height: 2.5vw;}
+}
+@keyframes twinkle {
+  0%, 100% { opacity: 0.85; }
+  50% { opacity: 1; }
+}
+.star { animation: twinkle 2.4s infinite ease-in-out; }
+.star {
+  position: absolute;
+  width: 0.4167vw;
+  height: 0.4167vw;
+  pointer-events: none;
+  z-index: 1;
+}
+.star-dot {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 0.2604vw;
+  height: 0.2604vw;
+  background: white;
+  border-radius: 50%;
+  transform: translate(-50%, -50%);
+  box-shadow: 0 0 0.3646vw 0.1042vw #fff, 0 0 0.6771vw 0.2083vw #b6c8ff;
+  opacity: 0.7;
+}
+.star::before, .star::after {
+  content: '';
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  background: white;
+  border-radius: 0.0521vw;
+  opacity: 0.19;
+  box-shadow: 0 0 0.1042vw 0.026vw #fff, 0 0 0.2083vw 0.0521vw #b6c8ff;
+  transform: translate(-50%, -50%);
+}
+.star::before { width: 0.5208vw; height: 0.0625vw; }
+.star::after { width: 0.0625vw; height: 0.5208vw; }
+.hero-row {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 1.875vw;
+  margin-top: 2.1rem;
+  margin-bottom: 11rem;
+}
+
+html, body {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+body {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  background: linear-gradient(180deg, #0a0a0a 0%, #1a1a2e 55%, #0a0a0a 100%);
+  color: white;
+  font-family: 'Minecraftia', monospace !important;
+  scroll-behavior: smooth;
+}
+
+/* Treść na górze, footer zawsze na dole */
+.main-content {
+  flex: 1 0 auto;
+  display: flex;
+  flex-direction: column;
+}
+
+/* ---- TWÓJ KOD, DLA DYSKORDA, NAVBARU, ETC. ---- */
+
+.discord-box {
+  display: flex;
+  align-items: center;
+  background: none;
+  box-shadow: none;
+  border: none;
+  gap: 0.4167vw;
+  font-family: 'Minecraftia', monospace;
+  padding: 0;
+  cursor: pointer;
+  transition: filter .2s;
+}
+.discord-box:hover {
+  filter: brightness(1.2) drop-shadow(0 0 0.4167vw #a78bfa);
+}
+.discord-icon {
+  width: 1.4583vw;
+  height: 1.4583vw;
+  image-rendering: auto;
+  display: block;
+}
+.discord-text {
+  display: flex;
+  flex-direction: column;
+  line-height: 1.1;
+  margin-left: 0.625vw;
+}
+.discord-text span {
+  color: white;
+  font-size: 1.1rem;
+  letter-spacing: 0.0521vw;
+  margin: 0;
+  padding: 0;
+}
+.discord-bold {
+  color: #9333ea;
+  font-weight: bold;
+  font-size: 1.1rem;
+  text-shadow: 0 0 0.4167vw #a78bfa, 0 0 0.625vw #9333ea;
+  letter-spacing: 0.0625vw;
+}
+
+/* NAVBAR */
+.nav-bar {
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
+  align-items: center;
+  width: 100%;
+  max-width: 41.6667vw;
+  margin: 0 auto;
+  gap: 0;
+  padding: 2rem 0 0.5rem 0;
+}
+.nav-col.left, .nav-col.right { display: flex; justify-content: flex-start; }
+.nav-col.right { justify-content: flex-end; }
+.nav-col.center { display: flex; justify-content: center; }
+.nav-bar button {
+  font-size: 1.6rem;
+  padding: 0.88rem 2.2rem;
+  border-radius: 0.5208vw;
+  font-weight: bold;
+  background: none;
+  border: none;
+  color: #fff;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+.nav-bar .active {
+  background-color: #9333ea;
+  border: 0.1562vw solid #a855f7;
+  box-shadow:
+    0 0 0.5729vw #a855f7,
+    0 0 1.0417vw #9333ea,
+    0 0 1.6667vw #a855f7;
+  text-shadow: 0 0 0.2083vw #fff, 0 0 0.5729vw #a855f7;
+  color: white;
+}
+
+/* Font face tylko raz! */
+@font-face {
+  font-family: 'Minecraftia';
+  src: url('assets/MinecraftRegular-Bmg3.otf') format('opentype');
+  font-weight: normal;
+  font-style: normal;
+}
+
+/* Reszta fontów na wszelki wypadek */
+body, html, h1, h2, h3, h4, h5, h6, button, p, span, div, a {
+  font-family: 'Minecraftia', monospace !important;
+}
+
+/* PLANETY I ANIMACJE */
+.planet.floating {
+  background: none !important;
+  animation: floatplanet 7s steps(9999999999, end) infinite alternate;
+  width: 10.7812vw;
+  height: 10.7812vw;
+   position: absolute;
+   
+}
+@keyframes floatplanet {
+  0% { transform: translateY(0); }
+  100% { transform: translateY(1.5625vw); }
+}
+.moon-orbit {
+  position: absolute;
+  width: 2.0833vw;
+  height: 2.0833vw;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  pointer-events: none;
+  image-rendering: auto;
+  z-index: 2;
+}
+
+/* LOGO */
+.logo {
+  margin: 0 auto 2.4rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 18.3333vw;
+  height: 13.3333vw;
+  background: transparent !important;
+}
+.logo img {
+  width: 100%;
+  height: auto;
+  display: block;
+  background: none !important;
+  border: none;
+  border-radius: 0;
+  filter: drop-shadow(0 0 1.5625vw #a855f7) drop-shadow(0 0 3.125vw #9333ea) drop-shadow(0 0 6.25vw #9333ea);
+  image-rendering: auto;
+}
+
+/* Przykład przycisku */
+.btn-purple {
+  background-image: url('data:image/svg+xml;utf8,<svg width="200" height="70" viewBox="0 0 200 70" fill="none" xmlns="http://www.w3.org/2000/svg"><rect x="0" y="0" width="40" height="35" fill="%23563a7c"/><rect x="40" y="0" width="40" height="35" fill="%235b407f"/><rect x="80" y="0" width="40" height="35" fill="%23533a78"/><rect x="120" y="0" width="40" height="35" fill="%235d437f"/><rect x="160" y="0" width="40" height="35" fill="%2358417b"/><rect x="0" y="35" width="40" height="35" fill="%235b407f"/><rect x="40" y="35" width="40" height="35" fill="%2358417b"/><rect x="80" y="35" width="40" height="35" fill="%23563a7c"/><rect x="120" y="35" width="40" height="35" fill="%23533a78"/><rect x="160" y="35" width="40" height="35" fill="%235d437f"/></svg>');
+  background-size: cover;
+  border-radius: 0.4167vw;
+  border: none;
+  color: white;
+  font-family: 'Press Start 2P', monospace;
+  font-size: 0.8333vw;
+  padding: 0.8333vw 1.6667vw;
+  cursor: pointer;
+  background-color: #9333ea;
+  border: 0.1562vw solid #a855f7;
+  color: white;
+  padding: 1.2rem 2.8rem;
+  margin: 0.5rem;
+  box-shadow: 0 0 0.8854vw #a855f7, 0 0 2.0833vw #9333ea;
+  font-size: 1.6rem;
+  font-weight: bold;
+  border-radius: 0.625vw;
+  letter-spacing: 0.1042vw;
+  transition: all 0.2s;
+  text-shadow: 0 0 0.3646vw #fff;
+}
+.btn-purple:hover {
+  background: #7e22ce;
+  box-shadow: 0 0 1.3542vw #a855f7, 0 0 2.1354vw #9333ea;
+}
+
+/* Przykładowa responsywność */
+@media (max-width: 46.875vw) {
+  .nav-bar { font-size: 1rem; gap: 0.9rem; }
+  .nav-bar button, .btn-purple { font-size: 0.8rem; padding: 0.5rem 1rem;}
+  .logo { width: 60vw; height: auto; }
+  .logo img { width: 60vw; max-width: 11.4583vw; }
+}
+
+/* PRZYKŁADOWE NAPISY */
+.boxpvp-title { width: 14.5833vw !important; top: -2.0833vw !important; left: 50% !important; }
+.anarchiaffa-title { width: 22.9167vw !important; top: -2.0833vw !important; left: 50% !important; }
+.earthsmp-title { width: 17.1875vw !important; top: -1.8229vw !important; left: 50% !important; }
+
+.boxpvp-gallery {
+  max-width: 46.875vw;
+  margin: 4rem auto 0 auto;
+  padding: 0 1.3rem;
+}
+.boxpvp-gallery h2 {
+  color: #a78bfa;
+  text-align: center;
+  margin-bottom: 2.8rem;
+  font-size: 2.7rem;
+  text-shadow: 0 0 0.9375vw #9333ea;
+  letter-spacing: 0.07em;
+}
+.boxpvp-gallery-row {
+  display: flex;
+  flex-direction: column;
+  gap: 3rem;
+}
+
+/* Główny prostokąt karty */
+.gallery-card {
+  display: flex;
+  align-items: center;
+  background: rgba(30, 41, 59, 0.96);
+  border-radius: 1.25vw;
+  box-shadow: 0 0 1.6667vw #a78bfa38, 0 0 0.0vw #9333ea22;
+  padding: 2.3rem 2.5rem 2.3rem 15.5rem;  /* WIĘKSZY PADDING Z LEWEJ */
+  min-height: 9.375vw;
+  position: relative;
+  overflow: visible; /* Pozwala obrazkowi wyjść poza kartę */
+  transition: transform .16s cubic-bezier(.4,2,.45,.8), box-shadow .18s;
+}
+
+/* SLIME OBRAZEK – poza kartą, łatwo powiększyć! */
+.gallery-img {
+  position: absolute;
+  left: 2.0833vw;   /* Możesz zmienić pozycję */
+  top: 50%;
+  transform: translateY(-50%);
+  width: 10.1562vw;
+  height: 10.1562vw;
+  object-fit: contain;
+  image-rendering: auto;
+  z-index: 2;
+  /* Efekt lekkiego "wyjścia" poza prostokąt */
+  filter: drop-shadow(0 0 1.4583vw #a78bfa88);
+  pointer-events: none;
+}
+
+/* Dla SVIP i MVIP możesz zmienić rozmiar */
+.gallery-img-svip { width: 11.1979vw; height: 11.1979vw; left: 1.6667vw; }
+.gallery-img-mvip { width: 13.0208vw; height: 13.0208vw; left: 0.2604vw; }
+
+/* Zawartość */
+.gallery-content {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  z-index: 3;
+  margin-left: 0;
+}
+
+.gallery-title {
+  font-size: 2.7rem;
+  font-weight: bold;
+  color: #fff;
+  margin-bottom: 1.1rem;
+  letter-spacing: 0.13em;
+  text-shadow: 0 0 0.7292vw #a78bfa99, 0 0 1.0938vw #9333ea88;
+}
+.svip .gallery-title { color: #a78bfa; }
+.mvip .gallery-title { color: #c084fc; text-shadow: 0 0 1.7708vw #9333ea; }
+
+.gallery-price {
+  font-size: 1.48rem;
+  font-weight: bold;
+  color: #a78bfa;
+  margin-bottom: 1.45rem;
+  letter-spacing: 0.09em;
+}
+
+.gallery-btn {
+  background: linear-gradient(90deg, #a78bfa 40%, #9333ea 100%);
+  color: #fff;
+  font-family: 'Minecraftia', monospace;
+  font-size: 1.32rem;
+  font-weight: bold;
+  border: none;
+  border-radius: 0.6771vw;
+  padding: 1.18rem 3.7rem;
+  cursor: pointer;
+  box-shadow: 0 0 1.1458vw #a78bfa88, 0 0 1.7708vw #9333ea44;
+  transition: box-shadow .19s, filter .19s;
+  letter-spacing: 0.0781vw;
+  text-shadow: 0 0 0.3646vw #fff;
+  margin-top: 0.7rem;
+  display: block;
+}
+.gallery-btn:hover {
+  filter: brightness(1.13);
+  box-shadow: 0 0 2.2917vw #a855f799, 0 0 3.2292vw #9333ea;
+}
+
+@media (max-width: 46.875vw) {
+  .gallery-card {
+    padding: 2.6rem 1rem 2.6rem 2.2rem;
+    min-height: unset;
+  }
+  .gallery-img, .gallery-img-svip, .gallery-img-mvip {
+    width: 4.9479vw !important;
+    height: 4.9479vw !important;
+    left: -1.7708vw !important;
+  }
+  .gallery-title { font-size: 1.4rem; }
+}
+.boxpvp-products {
+  transform: scale(1.2);     /* 40% większe */
+  transform-origin: top center; /* Powiększa od góry, środek */
+}
+
+</style>
+</head>
+<body>
+<div class="main-content">
+<div class="background">
+<div class="star" style="top:3.125vw; left:7.2917vw;"></div>
+<div class="star" style="top:10.4167vw; left:16.6667vw;"></div>
+<div class="star" style="top:18.2292vw; left:4.1667vw;"></div>
+<div class="star" style="top:6.25vw; right:5.2083vw;"></div>
+<div class="star" style="top:10.4167vw; right:6.7708vw;"></div>
+<div class="star" style="top:49.4792vw; left:7.2917vw;"></div>
+<div class="star" style="top:44.2708vw; left:54.6875vw;"></div>
+<div class="star" style="top:65.625vw; left:17.7083vw;"></div>
+<div class="star" style="top:65.625vw; left:85.4167vw;"></div>
+<div class="star" style="top:23.9583vw; left:75.0vw;"></div>
+
+    
+&lt;<div class="planet floating" style="top: 10.4167vw; left: 8.3333vw;">
+<img alt="Planeta 1" src="assets/planeta1.png" style="width:100%;height:100%;image-rendering:auto;"/>
+<img alt="Księżyc" class="moon-orbit" src="assets/moon.png"/>
+</div>
+<div class="planet floating" style="bottom: 5.2083vw; right: 8.3333vw; animation-delay:2s;">
+<img alt="Planeta 2" src="assets/planeta2.png" style="width:100%;height:100%;image-rendering:auto;"/>
+</div>
+<div class="planet floating" style="top: 54.6875vw; left: 2.6042vw;">
+<img alt="Jowisz" src="assets/planeta3.png" style="width:80%;height:80%;image-rendering:auto;"/>
+</div>
+</div>
+<!-- ...sekcja HERO zostaje BEZ zmian... -->
+<nav class="nav-bar">
+<div class="nav-col left">
+<button onclick="window.location.href='index.html'">STARTUJEMY</button>
+</div>
+<div class="nav-col center">
+<button onclick="window.location.href='index.html#gamemodes'">SKLEP</button>
+</div>
+<div class="nav-col right">
+<button onclick="openLink('https://discord.gg/xQfb8zCF')">DISCORD</button>
+</div>
+</nav>
+<section class="boxpvp-gallery">
+<h2>SKLEP BOXPVP</h2>
+<div class="boxpvp-gallery-row">
+<!-- VIP -->
+<div class="gallery-card vip">
+<img alt="VIP" class="gallery-img gallery-img-vip" src="assets/slimevip.png"/>
+<div class="gallery-content">
+<div class="gallery-title">VIP</div>
+<div class="gallery-price">9.99 zl</div>
+<button class="gallery-btn">KUP VIP</button>
+</div>
+</div>
+<!-- SVIP -->
+<div class="gallery-card svip">
+<img alt="S VIP" class="gallery-img gallery-img-svip" src="assets/slimesvip.png"/>
+<div class="gallery-content">
+<div class="gallery-title">S VIP</div>
+<div class="gallery-price">19.99 zl</div>
+<button class="gallery-btn">KUP SVIP</button>
+</div>
+</div>
+<!-- MVIP -->
+<div class="gallery-card mvip">
+<img alt="M VIP" class="gallery-img gallery-img-mvip" src="assets/slimemvip.png"/>
+<div class="gallery-content">
+<div class="gallery-title">M VIP</div>
+<div class="gallery-price">29.99 zl</div>
+<button class="gallery-btn">KUP MVIP</button>
+</div>
+</div>
+</div>
+</section>
+<!-- ... reszta jak wcześniej ... -->
+<footer class="custom-footer">
+<div class="footer-top">
+<div class="footer-main">
+<img alt="Logo" class="footer-logo" src="assets/logo.png">
+<span class="footer-copyright">
+        © CRAFTCOREMC.PL WSZELKIE PRAWA ZASTRZEZONE.
+      </span>
+</img></div>
+<div class="footer-socials">
+<a href="https://instagram.com" rel="noopener" target="_blank">
+<img alt="Instagram" src="assets/instagram.png"/>
+</a>
+<a href="https://tiktok.com" rel="noopener" target="_blank">
+<img alt="TikTok" src="assets/tiktok.png"/>
+</a>
+<a href="https://facebook.com" rel="noopener" target="_blank">
+<img alt="Facebook" src="assets/facebook.png"/>
+</a>
+<div class="footer-contact">SOCIAL MEDIA</div>
+</div>
+</div>
+<div class="footer-bottom">
+<div>PL – SERWER CRAFTCOREMC.PL NIE JEST POWIAZANY Z FIRMA MOJANG LUB MICROSOFT.</div>
+<div>EN – CRAFTCOREMC.PL SERVER IS NOT ASSOCIATED WITH MOJANG OR MICROSOFT IN ANY WAY.</div>
+</div>
+</footer>
+<script>
+  
+  function copyIP() {
+    navigator.clipboard.writeText("craftcoremc.pl").then(() => {
+      alert("IP serwera skopiowany!");
+    });
+  }
+
+  function openLink(url) {
+    window.open(url, '_blank');
+  }
+
+  function scrollToSection(id) {
+    const section = document.getElementById(id);
+    if (section) {
+      section.scrollIntoView({behavior: 'smooth'});
+    }
+  }
+
+  const moon = document.querySelector('.moon-orbit');
+  let moonAngle = 0;
+  const moonOrbitRadius = 162;
+  function animateMoon() {
+    moonAngle += 0.0025;
+    const x = Math.cos(moonAngle) * moonOrbitRadius;
+    const y = Math.sin(moonAngle) * moonOrbitRadius;
+    if (moon) moon.style.transform = `translate(-50%, -50%) translate(${x}px, ${y}px)`;
+    requestAnimationFrame(animateMoon);
+  }
+  if (moon) animateMoon();
+
+ 
+  function updatePlayerCount() {
+    fetch("http://localhost:3000/players")
+      .then(response => response.json())
+      .then(data => {
+        // Twoj backend zwraca: { online: X, max: Y }
+        const online = typeof data.online === "number" ? data.online : 0;
+        document.getElementById("online-count").textContent = online;
+        document.getElementById("online-label").textContent =
+          online === 1 ? "GRACZ ONLINE" : "GRACZY ONLINE";
+      })
+      .catch(() => {
+        document.getElementById("online-count").textContent = "?";
+        document.getElementById("online-label").textContent = "GRACZY ONLINE";
+      });
+  }
+  updatePlayerCount();
+  setInterval(updatePlayerCount, 5000); // 
+  
+</script>
+</div></body>
+</html>
