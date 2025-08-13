@@ -1,0 +1,369 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <title>Koszyk | CraftCoreMC</title>
+  <!-- CSS z index.html -->
+  <style>
+    body {
+      min-height: 100vh;
+      margin: 0;
+      background: linear-gradient(180deg, #0a0a0a 0%, #1a1a2e 55%, #0a0a0a 100%);
+      color: white;
+      font-family: 'Minecraftia', monospace !important;
+    }
+    .main-content {
+      min-height: 85vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: flex-start;
+      padding-top: 54px;
+    }
+    .cart-box {
+      background: rgba(30,41,59,0.97);
+      border-radius: 22px;
+      box-shadow: 0 0 40px #a78bfa44, 0 0 70px #9333ea22;
+      border: 3px solid #a78bfa;
+      max-width: 400px;
+      width: 97vw;
+      margin-top: 18px;
+      padding: 32px 28px 24px 28px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+    .cart-title {
+      color: #a78bfa;
+      font-size: 2.1rem;
+      margin-bottom: 1.5rem;
+      text-align: center;
+      text-shadow: 0 0 20px #a78bfa77;
+      letter-spacing: 0.8px;
+    }
+    .cart-list {
+      width: 100%;
+      margin-bottom: 28px;
+    }
+    .cart-item {
+      background: rgba(17,15,30,0.89);
+      border-radius: 13px;
+      box-shadow: 0 0 8px #a78bfa33;
+      margin-bottom: 18px;
+      padding: 13px 13px 10px 13px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      font-size: 1.17rem;
+      border: 1.5px solid #a78bfa33;
+    }
+    .cart-item:last-child {
+      margin-bottom: 0;
+    }
+    .cart-remove {
+      background: none;
+      border: none;
+      color: #fff;
+      font-size: 1.2rem;
+      cursor: pointer;
+      margin-left: 18px;
+      border-radius: 8px;
+      padding: 4px 8px;
+      transition: background 0.18s, color 0.17s;
+      box-shadow: 0 0 0.2em #a78bfa33;
+    }
+    .cart-remove:hover {
+      color: #a78bfa;
+      background: #1a0c3e;
+    }
+    .cart-empty {
+      color: #aaa;
+      font-size: 1.11rem;
+      text-align: center;
+      padding: 25px 0 18px 0;
+    }
+    .cart-sum {
+      margin: 0.6em 0 1.5em 0;
+      font-size: 1.4rem;
+      text-align: center;
+      color: #fff;
+      text-shadow: 0 0 6px #a78bfa66;
+      letter-spacing: 1px;
+    }
+    .cart-actions {
+      display: flex;
+      justify-content: center;
+      gap: 16px;
+      margin-top: 14px;
+    }
+    .btn-purple {
+      background: linear-gradient(90deg,#a78bfa 5%, #9333ea 95%);
+      border-radius: 12px;
+      border: none;
+      color: white;
+      font-family: 'Minecraftia', monospace;
+      font-size: 1.17rem;
+      padding: 0.82em 1.55em;
+      font-weight: bold;
+      letter-spacing: 1.2px;
+      box-shadow: 0 0 12px #a78bfa55, 0 0 18px #9333ea33;
+      cursor: pointer;
+      transition: all 0.16s;
+      margin-bottom: 0;
+      margin-top: 2px;
+      text-shadow: 0 0 4px #fff;
+    }
+    .btn-purple:hover {
+      background: #7e22ce;
+      box-shadow: 0 0 20px #a78bfa, 0 0 24px #9333ea88;
+    }
+    .paybox {
+      background: rgba(30,41,59,0.92);
+      border-radius: 17px;
+      padding: 28px 22px 17px 22px;
+      margin-top: 1.7em;
+      border: 2px solid #a78bfa;
+      box-shadow: 0 0 32px #a78bfa33;
+      max-width: 400px;
+      width: 97vw;
+      text-align: center;
+      display: none;
+    }
+    .pay-methods {
+      display: flex;
+      justify-content: center;
+      gap: 22px;
+      margin: 20px 0 7px 0;
+    }
+    .pay-info {
+      color: #a78bfa;
+      margin-top: 20px;
+      font-size: 1.08rem;
+    }
+    @font-face {
+      font-family: 'Minecraftia';
+      src: url('assets/MinecraftRegular-Bmg3.otf') format('opentype');
+      font-weight: normal;
+      font-style: normal;
+    }
+    @media (max-width: 480px) {
+      .cart-box, .paybox { padding: 12px 4vw 12px 4vw; }
+      .cart-title { font-size: 1.4rem;}
+      .btn-purple { font-size: 1rem;}
+    }
+	.star { animation: twinkle 2.4s infinite ease-in-out; }
+
+  .star {
+  position: absolute;
+  width: 0.417vw;
+  height: 0.417vw;
+  pointer-events: none;
+  z-index: 1;
+}
+
+.star-dot {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 0.26vw;
+  height: 0.26vw;
+  background: white;
+  border-radius: 50%;
+  transform: translate(-50%, -50%);
+  box-shadow: 0 0 0.365vw 0.104vw #fff, 0 0 0.677vw 0.208vw #b6c8ff;
+  opacity: 0.7;
+}
+
+.star::before, .star::after {
+  content: '';
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  background: white;
+  border-radius: 0.052vw;
+  opacity: 0.19;      /* klucz! bardzo niska przezroczystość */
+  box-shadow: 0 0 0.104vw 0.026vw #fff, 0 0 0.208vw 0.052vw #b6c8ff;
+  transform: translate(-50%, -50%);
+}
+
+.star::before {
+  width: 0.521vw;
+  height: 0.062vw;
+}
+
+.star::after {
+  width: 0.062vw;
+  height: 0.521vw;
+}
+  </style>
+</head>
+<body>
+<div class="main-content">
+<div class="background">
+<div class="star" style="top:3.125vw; left:7.292vw;"></div>
+<div class="star" style="top:10.417vw; left:16.667vw;"></div>
+<div class="star" style="top:18.229vw; left:4.167vw;"></div>
+<div class="star" style="top:6.25vw; right:5.208vw;"></div>
+<div class="star" style="top:10.417vw; right:6.771vw;"></div>
+<div class="star" style="top:49.479vw; left:7.292vw;"></div>
+<div class="star" style="top:44.271vw; left:54.688vw;"></div>
+<div class="star" style="top:65.625vw; left:17.708vw;"></div>
+<div class="star" style="top:65.625vw; left:85.417vw;"></div>
+<div class="star" style="top:23.958vw; left:75.0vw;"></div>
+  <div class="main-content">
+    <div class="cart-box">
+      <div class="cart-title">Twój koszyk</div>
+      <div id="cart-list" class="cart-list"></div>
+      <div id="cart-sum" class="cart-sum"></div>
+      <div class="cart-actions">
+	  <button id="pay-with-stripe" class="btn-purple">Zapłać Stripe (test)</button>
+        
+        <button class="btn-purple" onclick="goBack()" style="background:#232840; color:#fff; border:1.5px solid #a78bfa;">Wyczyść koszyk</button>
+        <button class="btn-purple" onclick="goBack()" style="background:#232840; color:#fff; border:1.5px solid #a78bfa;">Wróć</button>
+      </div>
+    </div>
+    <div id="paybox" class="paybox">
+      <div style="color:#a78bfa; font-size:1.2rem; font-weight:bold; margin-bottom:12px;">Wybierz metodę płatności:</div>
+      <div class="pay-methods">
+        <button class="btn-purple" onclick="pay('blik')">BLIK</button>
+        <button class="btn-purple" onclick="pay('przelew')">Przelew</button>
+      </div>
+      <div id="pay-info" class="pay-info"></div>
+      <button class="btn-purple" onclick="hidePayment()" style="margin-top:15px; background:#232840; color:#fff; border:1.5px solid #a78bfa;">Zamknij płatność</button>
+    </div>
+  </div>
+
+ <script>
+  // Wyświetlanie koszyka
+  function renderCart() {
+    let cart = JSON.parse(localStorage.getItem('cart')) || [];
+    let cartList = document.getElementById('cart-list');
+    let cartSum = document.getElementById('cart-sum');
+    if(cart.length === 0) {
+      cartList.innerHTML = '<div class="cart-empty">Koszyk jest pusty!</div>';
+      cartSum.textContent = '';
+      return;
+    }
+    let sum = 0;
+    cartList.innerHTML = cart.map((item, idx) =>
+      `<div class="cart-item">
+        <span>${item.name} <b style="color:#a78bfa;">${parseFloat(item.price).toFixed(2)} zł</b></span>
+        <button class="cart-remove" title="Usuń" onclick="removeFromCart(${idx});event.stopPropagation();">&times;</button>
+      </div>`
+    ).join('');
+    cart.forEach(item => sum += Number(item.price));
+    cartSum.textContent = `Suma: ${sum.toFixed(2)} zł`;
+  }
+
+  // Usuwanie produktu
+  function removeFromCart(idx) {
+    let cart = JSON.parse(localStorage.getItem('cart')) || [];
+    cart.splice(idx, 1);
+    localStorage.setItem('cart', JSON.stringify(cart));
+    renderCart();
+    updateCartUI();
+  }
+
+  // Czyść koszyk
+  function clearCart() {
+    if(confirm('Czy na pewno chcesz wyczyscic koszyk?')) {
+      localStorage.removeItem('cart');
+      renderCart();
+      updateCartUI();
+    }
+  }
+
+  // Pokaż płatność
+  function showPayment() {
+    if((JSON.parse(localStorage.getItem('cart')) || []).length === 0) {
+      alert("Twoj koszyk jest pusty!");
+      return;
+    }
+    document.getElementById('paybox').style.display = 'block';
+    window.scrollTo({top: 0, behavior: 'smooth'});
+  }
+  function hidePayment() {
+    document.getElementById('paybox').style.display = 'none';
+    document.getElementById('pay-info').innerHTML = '';
+  }
+  function pay(method) {
+    let info = '';
+    if (method === 'blik') {
+      info = "Podaj kod BLIK w tytule przelewu na nr konta:<br><b>STRONA DEMO</b><br>Po zaksięgowaniu odblokujemy produkt!";
+    } else {
+      info = "Wyslij przelew na konto:<br><b>STRONA DEMO</b><br>W tytule: Nick + produkt";
+    }
+    document.getElementById('pay-info').innerHTML = info;
+  }
+
+  // Przycisk WRÓĆ
+  function goBack() {
+    window.location.href = "index.html";
+  }
+
+  // Licznik koszyka (jeśli masz ten sam licznik na wszystkich podstronach)
+  function updateCartUI() {
+    let cart = JSON.parse(localStorage.getItem('cart')) || [];
+    let btn = document.getElementById('cart-btn');
+    let count = document.getElementById('cart-count');
+    if(btn && count) {
+      if (cart.length > 0) {
+        btn.style.display = 'block';
+        count.style.display = 'block';
+        count.textContent = cart.length;
+      } else {
+        btn.style.display = 'none';
+        count.style.display = 'none';
+      }
+    }
+  }
+
+  // Wyświetl koszyk po załadowaniu
+  renderCart();
+  updateCartUI();
+  function goToCartPage() {
+      window.location.href = "koszyk.html";
+    }
+</script>
+
+<!-- Stripe.js osobno! -->
+<script src="https://js.stripe.com/v3/"></script>
+<script>
+document.getElementById('pay-with-stripe').onclick = async function() {
+  const res = await fetch('/create-checkout-session', { method: 'POST' });
+  const data = await res.json();
+  console.log('Stripe response:', data); // (TO SIĘ JUŻ WYŚWIETLA!)
+  const stripe = Stripe('pk_test_51RmzhjEQGrf7tj9QzJwyrVoi6CkmgAed8JL8IKFrCS7rrFdWhxIJSgdZiIxQHhe3tGO0DG8AgXRgljAvsTUnvJiU00Hm6Gqcwr');
+  const result = await stripe.redirectToCheckout({ sessionId: data.id });
+  if (result.error) {
+    console.error(result.error.message);
+  }
+}
+</script>
+
+  <!-- Ikona koszyka w rogu, spójna z resztą -->
+  <div id="cart-btn" onclick="goToCartPage()" style="display:none; position:fixed; top:32px; right:32px; z-index:9999; cursor:pointer;">
+    <img src="assets/koszyk.png" alt="Koszyk"
+      style="width:72px; height:72px; image-rendering:auto; filter:drop-shadow(0 0 18px #a78bfa) drop-shadow(0 0 32px #9333ea);" />
+    <span id="cart-count"
+      style="
+        display:none;
+        position:absolute;
+        top:52px; right:4px;
+        background:rgba(255,255,255,0.55);
+        color:#9333ea;
+        border-radius:100px;
+        font-size:1.1rem;
+        font-weight:bold;
+        padding:0.18em 0.88em;
+        box-shadow:0 0 16px #a78bfa, 0 0 22px #fff8;
+        border:2.5px solid #a78bfa;
+        backdrop-filter: blur(2.5px);
+        text-shadow: 0 0 8px #a78bfa;
+      ">
+      0
+    </span>
+  </div>
+</body>
+</html>

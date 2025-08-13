@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <title>BOXPVP</title>
+  <!-- Tailwind CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    /* ANIMACJE GWIAZD I PLANET - zostawiasz tylko to */
+    @keyframes twinkle {
+      0%, 100% { opacity: 0.85; }
+      50% { opacity: 0.4; }
+    }
+    .star { animation: twinkle 2.4s infinite ease-in-out; position: absolute; z-index: 1; }
+    .star-dot { position: absolute; left: 50%; top: 50%; width: 6px; height: 6px; background: white; border-radius: 50%; transform: translate(-50%, -50%); box-shadow: 0 0 7px 2px #fff, 0 0 13px 4px #b6c8ff; opacity: 0.3; }
+    .star::before, .star::after { content: ''; position: absolute; left: 50%; top: 50%; background: white; border-radius: 2px; opacity: 0.2; transform: translate(-50%, -50%);}
+    .star::before { width: 16px; height: 2px; }
+    .star::after  { width: 2px; height: 16px; }
+    /* Planety */
+    @keyframes floatplanet { 0% { transform: translateY(0); } 100% { transform: translateY(25px); } }
+    .planet.floating { animation: floatplanet 7s infinite alternate; position: absolute; }
+    .moon-orbit { position: absolute; left: 50%; top: 50%; transform: translate(-50%, -50%); z-index: 2; pointer-events: none;}
+    /* FONT minecraftia – musi być załadowany w projekcie! */
+    @font-face {
+      font-family: 'Minecraftia';
+      src: url('assets/MinecraftRegular-Bmg3.otf') format('opentype');
+      font-weight: normal;
+      font-style: normal;
+    }
+	 @keyframes floatplanet { 0% { transform: translateY(0); } 100% { transform: translateY(30px); } }
+  .planet.floating { animation: floatplanet 10s infinite alternate; position: absolute; }
+  .moon-orbit { position: absolute; left: 50%; top: 50%; transform: translate(-50%, -50%); z-index: 2; }
+  </style>
+  <!-- Font fallback dla Tailwinda -->
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            minecraftia: ['Minecraftia', 'monospace']
+          }
+        }
+      }
+    }
+  </script>
+</head>
+<body class="min-h-screen flex flex-col bg-gradient-to-b from-[#0a0a0a] via-[#1a1a2e] to-[#0a0a0a] text-white font-minecraftia">
+
+  <!-- GWIAZDY -->
+  <div class="relative z-0 w-full h-0">
+    <div class="star" style="top:30px; left:70px;"><div class="star-dot"></div></div>
+    <div class="star" style="top:100px; left:250px;"><div class="star-dot"></div></div>
+    <div class="star" style="top:175px; left:60px;"><div class="star-dot"></div></div>
+    <div class="star" style="top:60px; right:100px;"><div class="star-dot"></div></div>
+    <div class="star" style="top:200px; right:120px;"><div class="star-dot"></div></div>
+  </div>
+  
+  <!-- PLANETY -->
+  <div class="planet floating" style="top:120px; left:60px; width:130px; height:130px;">
+    <img alt="Planeta 1" src="assets/planeta1.png"  class="w-24 sm:w-32 md:w-40 h-auto object-contain" />
+    <img alt="Księżyc" class="moon-orbit w-8 h-8" src="assets/moon.png"/>
+  </div>
+  <div class="planet floating" style="bottom:250px; right:60px; width:130px; height:130px; animation-delay:2s;">
+    <img alt="Planeta 2" src="assets/planeta2.png" class="w-full h-full object-contain"/>
+  </div>
+  <div class="planet floating z-0 left-4 top-[70vh] w-24 h-24 sm:w-40 sm:h-40">
+  <img src="assets/planeta3.png" class="w-full h-full object-contain" />
+</div>
+
+  <!-- NAVBAR -->
+  <nav class="w-full max-w-3xl mx-auto grid grid-cols-3 items-center pt-8 pb-2 gap-2 px-2">
+    <div class="flex justify-start">
+      <button onclick="window.location.href='index.html'" class="text-base md:text-xl font-bold text-white px-3 py-2 rounded-lg hover:bg-purple-900/30 transition">STARTUJEMY</button>
+    </div>
+    <div class="flex justify-center">
+      <button onclick="window.location.href='index.html#gamemodes'" class="bg-purple-700 border-2 border-purple-400 shadow-lg text-white font-bold rounded-xl text-base md:text-xl px-8 py-2 transition">SKLEP</button>
+    </div>
+    <div class="flex justify-end">
+      <button onclick="openLink('https://discord.gg/xQfb8zCF')" class="text-base md:text-xl font-bold text-white px-3 py-2 rounded-lg hover:bg-purple-900/30 transition">DISCORD</button>
+    </div>
+  </nav>
+
+  <!-- GALERIA BOXÓW -->
+  <main class="flex-1 flex flex-col w-full">
+    <section class="max-w-2xl w-full mx-auto mt-8 px-2">
+      <h2 class="text-center text-3xl md:text-4xl font-bold text-[#a78bfa] drop-shadow-[0_0_18px_#9333ea] tracking-wider mb-11">SKLEP BOXPVP</h2>
+      <div class="flex flex-col gap-12">
+        <!-- VIP -->
+        <div class="relative flex items-center bg-[rgba(30,41,59,0.96)] rounded-2xl shadow-2xl px-6 sm:px-14 py-8 sm:py-12 min-h-[150px] sm:min-h-[200px] overflow-visible transition">
+  <img 
+    alt="VIP" 
+    class="absolute left-0 sm:left-6 top-1/2 -translate-y-1/2 w-32 h-32 sm:w-40 sm:h-40 object-contain pointer-events-none"
+    src="assets/slimevip.png"
+  />
+  <div class="flex flex-col items-start ml-40 sm:ml-40 w-full max-w-xs">
+    <div class="text-3xl font-bold text-white mb-1 drop-shadow-lg">VIP</div>
+    <div class="text-xl font-bold text-[#a78bfa] mb-4">9.99 zł</div>
+    <button class="bg-gradient-to-r from-[#a78bfa] to-[#9333ea] text-white font-minecraftia text-base sm:text-lg font-bold rounded-xl px-8 sm:px-16 py-2 sm:py-4 shadow-lg mt-3 hover:brightness-110 transition"
+      onclick="addToCart('Ranga VIP', 9.99)">Dodaj do koszyka</button>
+  </div>
+</div>
+        <!-- SVIP -->
+<div class="relative flex items-center bg-[rgba(30,41,59,0.96)] rounded-2xl shadow-2xl px-6 sm:px-14 py-8 sm:py-12 min-h-[150px] sm:min-h-[200px] overflow-visible transition">
+  <img 
+    alt="S VIP" 
+    class="absolute left-0 sm:left-2 top-1/2 -translate-y-1/2 w-36 h-36 sm:w-44 sm:h-44 object-contain pointer-events-none"
+    src="assets/slimesvip.png"
+  />
+  <div class="flex flex-col items-start ml-40 sm:ml-40 w-full max-w-xs">
+    <div class="text-3xl font-bold text-[#a78bfa] mb-1 drop-shadow-lg">S VIP</div>
+    <div class="text-xl font-bold text-[#a78bfa] mb-4">19.99 zł</div>
+    <button class="bg-gradient-to-r from-[#a78bfa] to-[#9333ea] text-white font-minecraftia text-base sm:text-lg font-bold rounded-xl px-8 sm:px-16 py-2 sm:py-4 shadow-lg mt-3 hover:brightness-110 transition"
+      onclick="addToCart('Ranga S VIP', 19.99)">Dodaj do koszyka</button>
+  </div>
+</div>
+        <!-- MVIP -->
+        <div class="relative flex items-center bg-[rgba(30,41,59,0.96)] rounded-2xl shadow-2xl px-6 sm:px-14 py-8 sm:py-12 min-h-[150px] sm:min-h-[200px] overflow-visible transition">
+  <img 
+    alt="M VIP" 
+    class="absolute left-0 sm:-left-2 top-1/2 -translate-y-1/2 w-40 h-40 sm:w-48 sm:h-48 object-contain pointer-events-none"
+    src="assets/slimemvip.png"
+  />
+  <div class="flex flex-col items-start ml-40 sm:ml-40 w-full max-w-xs">
+    <div class="text-3xl font-bold text-[#c084fc] mb-1 drop-shadow-lg">M VIP</div>
+    <div class="text-xl font-bold text-[#a78bfa] mb-4">29.99 zł</div>
+    <button class="bg-gradient-to-r from-[#a78bfa] to-[#9333ea] text-white font-minecraftia text-base sm:text-lg font-bold rounded-xl px-8 sm:px-16 py-2 sm:py-4 shadow-lg mt-3 hover:brightness-110 transition"
+      onclick="addToCart('Ranga M VIP', 29.99)">Dodaj do koszyka</button>
+  </div>
+</div>
+      </div>
+    </section>
+  </main>
+
+  <!-- STOPKA -->
+  <footer class="w-full bg-transparent text-white text-center mt-auto py-10">
+    <div class="flex flex-col sm:flex-row justify-between items-center max-w-4xl mx-auto mb-8 gap-6 px-4">
+      <div class="flex items-center gap-4">
+        <img alt="Logo" class="w-16 h-16 object-contain drop-shadow-lg" src="assets/logo.png">
+        <span class="block w-full max-w-full text-center break-words whitespace-normal">
+  © CRAFTCOREMC.PL WSZELKIE PRAWA ZASTRZEZONE.
+</span>
+      </div>
+      <div class="flex items-center gap-3">
+        <a href="https://instagram.com" rel="noopener" target="_blank">
+          <img alt="Instagram" src="assets/instagram.png" class="w-8 h-8 transition hover:brightness-125 hover:drop-shadow-lg"/>
+        </a>
+        <a href="https://tiktok.com" rel="noopener" target="_blank">
+          <img alt="TikTok" src="assets/tiktok.png" class="w-8 h-8 transition hover:brightness-125 hover:drop-shadow-lg"/>
+        </a>
+        <a href="https://facebook.com" rel="noopener" target="_blank">
+          <img alt="Facebook" src="assets/facebook.png" class="w-8 h-8 transition hover:brightness-125 hover:drop-shadow-lg"/>
+        </a>
+        <div class="text-sm sm:text-lg font-bold ml-2">SOCIAL MEDIA</div>
+      </div>
+    </div>
+    <div class="text-xs sm:text-base text-gray-300 leading-relaxed max-w-2xl mx-auto">
+      <div>PL – SERWER CRAFTCOREMC.PL NIE JEST POWIĄZANY Z FIRMĄ MOJANG LUB MICROSOFT.</div>
+      <div>EN – CRAFTCOREMC.PL SERVER IS NOT ASSOCIATED WITH MOJANG OR MICROSOFT IN ANY WAY.</div>
+    </div>
+  </footer>
+
+  <!-- KOSZYK -->
+  <div id="cart-btn" onclick="goToCartPage()" class="hidden fixed top-8 right-8 z-50 cursor-pointer">
+    <img src="assets/koszyk.png" alt="Koszyk" class="w-14 h-14 drop-shadow-lg"/>
+    <span id="cart-count" class="hidden absolute top-12 right-1 bg-white/0 text-[#9333ea] rounded-full text-base font-bold px-3 py-1 shadow-lg border-2 border-[#a78bfa] backdrop-blur-sm">0</span>
+  </div>
+
+  <!-- SKRYPTY -->
+  <script>
+    function openLink(url) { window.open(url, '_blank'); }
+    function addToCart(name, price) {
+      let cart = JSON.parse(localStorage.getItem('cart')) || [];
+      cart.push({name, price});
+      localStorage.setItem('cart', JSON.stringify(cart));
+      updateCartUI();
+    }
+    function updateCartUI() {
+      let cart = JSON.parse(localStorage.getItem('cart')) || [];
+      let btn = document.getElementById('cart-btn');
+      let count = document.getElementById('cart-count');
+      if (cart.length > 0) {
+        btn.classList.remove('hidden');
+        count.classList.remove('hidden');
+        count.textContent = cart.length;
+      } else {
+        btn.classList.add('hidden');
+        count.classList.add('hidden');
+      }
+    }
+    window.addEventListener('DOMContentLoaded', updateCartUI);
+    function goToCartPage() { window.location.href = 'koszyk.html'; }
+    // Animacja księżyca
+    const moon = document.querySelector('.moon-orbit');
+    let moonAngle = 0;
+    const moonOrbitRadius = 160;
+    function animateMoon() {
+      moonAngle += 0.004;
+      const x = Math.cos(moonAngle) * moonOrbitRadius;
+      const y = Math.sin(moonAngle) * moonOrbitRadius;
+      if (moon) moon.style.transform = `translate(-50%, -50%) translate(${x}px, ${y}px)`;
+      requestAnimationFrame(animateMoon);
+    }
+    if (moon) animateMoon();
+  </script>
+</body>
+</html>
