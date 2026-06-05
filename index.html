@@ -81,7 +81,6 @@
       --hero-actions-gap: clamp(1rem, 6vw, 4rem);
 
       --card-width: clamp(250px, 30vw, 400px);
-      --card-img-height: clamp(140px, 18vw, 280px);
       --card-title-height: clamp(32px, 4.2vw, 46px);
       --card-title-top: clamp(-2.2rem, -2.1vw, -1rem);
       --card-btn-bottom: clamp(-2.4rem, -2.5vw, -1.5rem);
@@ -92,6 +91,9 @@
       --planet-small: clamp(58px, 9vw, 130px);
       --moon-size: clamp(16px, 2vw, 32px);
       --moon-radius: clamp(48px, 9vw, 162px);
+
+      --gap-cards: clamp(2.5rem, 6vw, 3rem);
+      --section-pad-x: clamp(1rem, 4vw, 2rem);
     }
 
     .navbar-responsive { gap: var(--nav-gap) !important; }
@@ -129,13 +131,19 @@
       padding-inline: 1rem;
     }
 
+    .gamemode-grid-responsive {
+      gap: var(--gap-cards) !important;
+      padding-inline: var(--section-pad-x) !important;
+    }
+
     .card-game-responsive {
       width: var(--card-width) !important;
       max-width: 400px !important;
     }
     .game-img-container-responsive {
-      height: var(--card-img-height) !important;
-      min-height: 140px !important;
+      height: auto !important;
+      aspect-ratio: 16 / 10 !important;
+      min-height: 0 !important;
     }
     .game-title-responsive {
       height: var(--card-title-height) !important;
@@ -172,13 +180,9 @@
       .hero-actions-responsive {
         flex-direction: column !important;
         gap: 1.25rem !important;
-        padding-inline: 1rem;
+        padding-inline: var(--section-pad-x) !important;
       }
       .hero-actions-responsive a { justify-content: center; }
-      .gamemode-grid-responsive {
-        gap: 5rem !important;
-        padding-inline: 1rem;
-      }
       .card-game-responsive {
         width: min(92vw, 400px) !important;
         margin-inline: auto !important;
@@ -197,6 +201,10 @@
         top: auto !important;
         right: 1rem !important;
         bottom: 1rem !important;
+      }
+      section.text-center,
+      .gamemodes {
+        padding-inline: var(--section-pad-x) !important;
       }
     }
   </style>
