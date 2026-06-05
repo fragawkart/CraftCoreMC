@@ -1,7 +1,5 @@
-
-
-
-
+<!DOCTYPE html>
+<html lang="pl">
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -56,6 +54,151 @@
     .star::after  { width: 2px;  height: 12px;}
     .star { animation: twinkle 2.4s infinite ease-in-out;}
     @keyframes twinkle { 0%,100%{opacity:0.85;} 50%{opacity:1;} }
+
+    /* ===== RESPONSYWNOŚĆ — tylko skalowanie wartości, bez zmiany wyglądu ===== */
+    :root {
+      --nav-gap: clamp(0.75rem, 5vw, 5rem);
+      --hero-top: clamp(2rem, 7vw, 5rem);
+      --hero-title-margin: clamp(3rem, 9vw, 7rem);
+      --section-title-margin: clamp(3rem, 9vw, 7rem);
+      --footer-margin: clamp(5rem, 18vw, 24rem);
+
+      --online-px: clamp(1.25rem, 4vw, 2.25rem);
+      --online-py: clamp(0.9rem, 2.5vw, 1.25rem);
+      --online-count: clamp(1.05rem, 3.8vw, 1.7rem);
+      --online-label: clamp(0.9rem, 3.3vw, 1.5rem);
+
+      --logo-width: clamp(180px, 55vw, 420px);
+
+      --h1-size: clamp(1.35rem, 5vw, 3rem);
+      --h3-size: clamp(2rem, 7vw, 4.5rem);
+      --p-size: clamp(0.95rem, 3vw, 1.25rem);
+
+      --btn-size: clamp(0.9rem, 3.2vw, 1.5rem);
+      --btn-px: clamp(1.25rem, 5vw, 3rem);
+      --btn-py: clamp(0.75rem, 2.6vw, 1rem);
+
+      --hero-actions-gap: clamp(1rem, 6vw, 4rem);
+
+      --card-width: clamp(250px, 30vw, 400px);
+      --card-img-height: clamp(140px, 18vw, 280px);
+      --card-title-height: clamp(32px, 4.2vw, 46px);
+      --card-title-top: clamp(-2.2rem, -2.1vw, -1rem);
+      --card-btn-bottom: clamp(-2.4rem, -2.5vw, -1.5rem);
+      --card-btn-width: clamp(150px, 12vw, 210px);
+      --card-btn-size: clamp(0.9rem, 2.4vw, 1.25rem);
+
+      --planet-big: clamp(70px, 11vw, 160px);
+      --planet-small: clamp(58px, 9vw, 130px);
+      --moon-size: clamp(16px, 2vw, 32px);
+      --moon-radius: clamp(48px, 9vw, 162px);
+    }
+
+    .navbar-responsive { gap: var(--nav-gap) !important; }
+
+    .online-box-responsive {
+      padding: var(--online-py) var(--online-px) !important;
+      margin-top: var(--hero-top) !important;
+    }
+    #online-count { font-size: var(--online-count) !important; }
+    #online-label { font-size: var(--online-label) !important; }
+
+    .logo-responsive { width: var(--logo-width) !important; }
+
+    .hero-title-responsive {
+      margin-top: var(--hero-title-margin) !important;
+      font-size: var(--h1-size) !important;
+      line-height: 1.25 !important;
+      padding-inline: 1rem;
+    }
+
+    .hero-actions-responsive { gap: var(--hero-actions-gap) !important; }
+    .hero-btn-responsive {
+      font-size: var(--btn-size) !important;
+      padding: var(--btn-py) var(--btn-px) !important;
+    }
+
+    .gamemodes-title-responsive {
+      margin-top: var(--section-title-margin) !important;
+      font-size: var(--h3-size) !important;
+      line-height: 1.1 !important;
+    }
+    .gamemodes-subtitle-responsive {
+      font-size: var(--p-size) !important;
+      margin-bottom: clamp(4rem, 10vw, 9rem) !important;
+      padding-inline: 1rem;
+    }
+
+    .card-game-responsive {
+      width: var(--card-width) !important;
+      max-width: 400px !important;
+    }
+    .game-img-container-responsive {
+      height: var(--card-img-height) !important;
+      min-height: 140px !important;
+    }
+    .game-title-responsive {
+      height: var(--card-title-height) !important;
+      top: var(--card-title-top) !important;
+      max-width: 85% !important;
+    }
+    .btn-choose-responsive {
+      bottom: var(--card-btn-bottom) !important;
+      min-width: var(--card-btn-width) !important;
+      font-size: var(--card-btn-size) !important;
+    }
+
+    .planet-big-responsive {
+      width: var(--planet-big) !important;
+      height: var(--planet-big) !important;
+    }
+    .planet-small-responsive {
+      width: var(--planet-small) !important;
+      height: var(--planet-small) !important;
+    }
+    .moon-responsive {
+      width: var(--moon-size) !important;
+      height: var(--moon-size) !important;
+    }
+
+    .footer-responsive { margin-top: var(--footer-margin) !important; }
+
+    @media (max-width: 640px) {
+      .navbar-responsive {
+        gap: 0.75rem !important;
+        margin-top: 1rem !important;
+        margin-bottom: 1rem !important;
+      }
+      .hero-actions-responsive {
+        flex-direction: column !important;
+        gap: 1.25rem !important;
+        padding-inline: 1rem;
+      }
+      .hero-actions-responsive a { justify-content: center; }
+      .gamemode-grid-responsive {
+        gap: 5rem !important;
+        padding-inline: 1rem;
+      }
+      .card-game-responsive {
+        width: min(92vw, 400px) !important;
+        margin-inline: auto !important;
+      }
+      .footer-top-responsive {
+        padding-inline: 1rem !important;
+        gap: 1.5rem !important;
+      }
+      .footer-bottom-responsive {
+        padding-inline: 1rem !important;
+        font-size: 0.7rem !important;
+      }
+      .planet-big-responsive,
+      .planet-small-responsive { opacity: 0.45; }
+      #cart-btn {
+        top: auto !important;
+        right: 1rem !important;
+        bottom: 1rem !important;
+      }
+    }
   </style>
 </head>
 <body class="bg-gradient-to-b from-[#0a0a0a] via-[#1a1a2e] to-[#0a0a0a] min-h-screen relative overflow-x-hidden">
@@ -75,19 +218,19 @@
   </div>
 
   <!-- PLANETY -->
-  <div class="absolute z-10 pointer-events-none select-none" style="top: 10vw; left: 8vw; width: 11vw; height: 11vw;">
+  <div class="planet-big-responsive absolute z-10 pointer-events-none select-none" style="top: 10vw; left: 8vw; width: 11vw; height: 11vw;">
     <img src="assets/planeta1.png" alt="Planeta 1" class="w-full h-full" />
-    <img src="assets/moon.png" alt="Księżyc" class="absolute left-1/2 top-1/2 w-[2vw] h-[2vw] -translate-x-1/2 -translate-y-1/2 moon-orbit" />
+    <img src="assets/moon.png" alt="Księżyc" class="moon-responsive absolute left-1/2 top-1/2 w-[2vw] h-[2vw] -translate-x-1/2 -translate-y-1/2 moon-orbit" />
   </div>
-  <div class="absolute z-10 pointer-events-none select-none" style="bottom: 50vw; right: 8vw; width: 11vw; height: 11vw;">
+  <div class="planet-big-responsive absolute z-10 pointer-events-none select-none" style="bottom: 50vw; right: 8vw; width: 11vw; height: 11vw;">
     <img src="assets/planeta2.png" alt="Planeta 2" class="w-full h-full" />
   </div>
-  <div class="absolute z-10 pointer-events-none select-none" style="top: 102vw; left: 2.6vw; width: 9vw; height: 9vw;">
+  <div class="planet-small-responsive absolute z-10 pointer-events-none select-none" style="top: 102vw; left: 2.6vw; width: 9vw; height: 9vw;">
     <img src="assets/planeta3.png" alt="Jowisz" class="w-[80%] h-[80%]" />
   </div>
 
   <!-- NAVBAR -->
-  <div class="flex flex-col sm:flex-row justify-center items-center gap-3 sm:gap-20 my-4">
+  <div class="navbar-responsive flex flex-col sm:flex-row justify-center items-center gap-3 sm:gap-20 my-4">
   <button
     onclick="location.reload()"
     class="text-white font-bold font-minecraftia text-base sm:text-2xl tracking-wide px-3 sm:px-8 py-1.5 sm:py-3 rounded transition-all"
@@ -113,91 +256,87 @@
 
   <!-- HERO -->
   <section class="text-center pt-8">
-    <div class="inline-block bg-[#1e1b3a] border border-[#a855f7] rounded-xl px-9 py-5 mt-20 mb-2
-  shadow-[0_0_16px_4px_#a855f76c,0_0_36px_0_#a855f733]
-">
-  <span class="text-[1.7rem] font-bold text-[#d1b3ff] mr-4" id="online-count">0</span>
-  <span class="text-[1.5rem] font-bold text-[#d1b3ff] tracking-wide" id="online-label">GRACZY ONLINE</span>
-</div>
-    <div class="mx-auto my-4 w-[clamp(180px,55vw,420px)]">
-  <img src="assets/logo.png"
-    class="w-full h-auto mx-auto
-      drop-shadow-[0_0_80px_#a855f7]
-      drop-shadow-[0_0_160px_#a855f7]
-      drop-shadow-[0_0_240px_#9333ea]
-      drop-shadow-[0_0_320px_#c4b5fd]
-      brightness-125
-      "
-    alt="Logo serwera" />
-</div>
-    <h2 class="mt-28 text-3xl md:text-5xl font-extrabold tracking-wide text-white" style="text-shadow:0 0 12px #fff, 0 0 18px #a855f7;">
-  DOLACZ DO NIESAMOWITEGO SWIATA!
-    <div class="flex justify-center items-center gap-16 mt-8 mb-12">
-  <!-- Kopiuj IP -->
-  <button
-    onclick="copyIP()"
-    class="font-bold text-white font-minecraftia text-2xl px-12 py-4 rounded-xl border-2 border-[#b97fff] bg-[#a855f7] shadow-[0_0_16px_#a855f7,0_0_36px_#a78bfa,0_0_46px_#9333ea] transition-all"
-    style="text-shadow: 0 0 8px #fff, 0 0 18px #a78bfa;"
-  >
-    SKOPIUJ IP
-  </button>
+  <!-- Licznik graczy -->
+  <div class="online-box-responsive inline-block bg-[#1e1b3a] border border-[#a855f7] rounded-xl px-9 py-5 mt-20 mb-2 shadow-[0_0_16px_4px_#a855f76c,0_0_36px_0_#a855f733]">
+    <span class="text-[1.7rem] font-bold text-[#d1b3ff] mr-4" id="online-count">0</span>
+    <span class="text-[1.5rem] font-bold text-[#d1b3ff] tracking-wide" id="online-label">GRACZY ONLINE</span>
+  </div>
 
-  <!-- Discord -->
-  <a href="https://discord.gg/zjnQ2ufD" target="_blank" class="flex items-center gap-4 hover:brightness-110" style="text-decoration:none;">
-    <!-- Ikona Discord (SVG, białe) -->
-    <img src="assets/discord.png" class="w-10 h-10" alt="Discord"/>
-      <path d="M20.317 4.369A19.791 19.791 0 0016.885 3.3a.074.074 0 00-.079.037c-.345.611-.729 1.407-.999 2.034-2.974-.447-5.89-.447-8.842 0-.27-.635-.662-1.423-.999-2.034a.077.077 0 00-.079-.037 19.736 19.736 0 00-3.432 1.069.069.069 0 00-.032.027C.533 9.046-.319 13.58.099 18.057a.082.082 0 00.028.056c1.431 1.053 2.824 1.697 4.197 2.13a.077.077 0 00.084-.027c.322-.444.608-.91.857-1.401a.076.076 0 00-.041-.104c-.453-.171-.885-.381-1.295-.623a.077.077 0 01-.008-.127c.087-.065.174-.13.258-.198a.074.074 0 01.077-.01c2.619 1.196 5.447 1.196 8.041 0a.075.075 0 01.078.009c.084.068.171.133.259.199a.077.077 0 01-.006.127 8.12 8.12 0 01-1.297.622.076.076 0 00-.04.105c.25.491.535.957.856 1.4a.076.076 0 00.084.028c1.375-.433 2.768-1.077 4.2-2.13a.076.076 0 00.028-.055c.5-5.177-.838-9.673-3.548-13.661a.061.061 0 00-.03-.028zM8.02 15.331c-.789 0-1.438-.724-1.438-1.612 0-.889.636-1.612 1.438-1.612.807 0 1.454.73 1.439 1.612 0 .888-.636 1.612-1.439 1.612zm7.974 0c-.789 0-1.438-.724-1.438-1.612 0-.889.635-1.612 1.438-1.612.807 0 1.454.73 1.439 1.612 0 .888-.632 1.612-1.439 1.612z"/>
-    </svg>
-    <div class="flex flex-col ml-1 leading-tight text-left">
-      <span class="text-white text-base font-bold -mb-1" style="letter-spacing:1px;">DOLACZ DO</span>
-      <span class="text-violet-300 font-bold text-lg" style="text-shadow:0 0 8px #a78bfa,0 0 10px #9333ea; letter-spacing:1px;">SPOLECZNOSCI</span>
-    </div>
-  </a>
-</div>
-  </section>
+  <!-- Logo -->
+  <div class="logo-responsive mx-auto my-4 w-[clamp(180px,55vw,420px)]">
+    <img src="assets/logo.png"
+      class="w-full h-auto mx-auto drop-shadow-[0_0_80px_#a855f7] drop-shadow-[0_0_160px_#a855f7] drop-shadow-[0_0_240px_#9333ea] drop-shadow-[0_0_320px_#c4b5fd] brightness-125"
+      alt="Logo serwera CraftCoreMC – polski serwer Minecraft" />
+  </div>
+
+  <!-- Główny nagłówek strony -->
+  <h1 class="hero-title-responsive mt-28 text-3xl md:text-5xl font-extrabold tracking-wide text-white" style="text-shadow:0 0 12px #fff, 0 0 18px #a855f7;">
+    CraftCoreMC – Dołącz do niesamowitego świata Minecraft!
+  </h1>
+
+  <!-- Przyciski -->
+  <div class="hero-actions-responsive flex justify-center items-center gap-16 mt-8 mb-12">
+    <!-- Kopiuj IP -->
+    <button
+      onclick="copyIP()"
+      class="hero-btn-responsive font-bold text-white font-minecraftia text-2xl px-12 py-4 rounded-xl border-2 border-[#b97fff] bg-[#a855f7] shadow-[0_0_16px_#a855f7,0_0_36px_#a78bfa,0_0_46px_#9333ea] transition-all"
+      style="text-shadow: 0 0 8px #fff, 0 0 18px #a78bfa;">
+      SKOPIUJ IP
+    </button>
+
+    <!-- Discord -->
+    <a href="https://discord.gg/zjnQ2ufD" target="_blank" class="flex items-center gap-4 hover:brightness-110" style="text-decoration:none;">
+      <img src="assets/discord.png" class="w-10 h-10" alt="Discord" />
+      <div class="flex flex-col ml-1 leading-tight text-left">
+        <span class="text-white text-base font-bold -mb-1" style="letter-spacing:1px;">DOŁĄCZ DO</span>
+        <span class="text-violet-300 font-bold text-lg" style="text-shadow:0 0 8px #a78bfa,0 0 10px #9333ea; letter-spacing:1px;">SPOŁECZNOŚCI</span>
+      </div>
+    </a>
+  </div>
+</section>
 
   <!-- Tryby gry (gamemodes) -->
   <section id="gamemodes" class="gamemodes pt-2">
-    <h3 class="mt-28 text-[2.5rem] md:text-[4.5rem] font-bold text-center text-white mb-4">WYBIERZ TRYB</h3>
-    <p class="text-xl text-center mb-36 text-white">NA KTORYM CHCESZ DOKONAC ZAKUPU!</p>
-    <div class="gamemode-grid flex flex-wrap md:flex-row flex-col justify-center gap-12 mb-16">
+    <h3 class="gamemodes-title-responsive mt-28 text-[2.5rem] md:text-[4.5rem] font-bold text-center text-white mb-4">WYBIERZ TRYB</h3>
+    <p class="gamemodes-subtitle-responsive text-xl text-center mb-36 text-white">NA KTORYM CHCESZ DOKONAC ZAKUPU!</p>
+    <div class="gamemode-grid gamemode-grid-responsive flex flex-wrap md:flex-row flex-col justify-center gap-12 mb-16">
       <!-- Karta 1 -->
-<div class="card card-game left relative flex flex-col items-center flex-1 min-w-[250px] max-w-[400px] w-[24vw] m-4 bg-slate-800/90 border border-violet-400 rounded-xl shadow-xl overflow-visible">
-  <div class="game-img-container relative w-full h-[clamp(140px,15vw,280px)] min-h-[140px] flex flex-col items-center justify-end pt-6">
+<div class="card card-game card-game-responsive left relative flex flex-col items-center flex-1 min-w-[250px] max-w-[400px] w-[24vw] m-4 bg-slate-800/90 border border-violet-400 rounded-xl shadow-xl overflow-visible">
+  <div class="game-img-container game-img-container-responsive relative w-full h-[clamp(140px,15vw,280px)] min-h-[140px] flex flex-col items-center justify-end pt-6">
     <img src="assets/boxpvp.png"
          class="game-img absolute top-0 left-0 w-full h-full object-cover rounded-t-xl rounded-b-2xl brightness-105 drop-shadow-[0_0_15px_rgba(167,139,250,0.47)] object-[80%] z-10"
          alt="BOXPVP"/>
     <img src="assets/boxpvp1.png"
-         class="game-title-img boxpvp-title absolute left-1/2 -translate-x-1/2 top-[-2.5vw]
+         class="game-title-img game-title-responsive boxpvp-title absolute left-1/2 -translate-x-1/2 top-[-2.5vw]
     h-[38px] md:h-[46px] w-auto pointer-events-none select-none z-20"
          alt="BOXPVP"/>
-    <button class="btn-choose absolute left-1/2 -translate-x-1/2 bottom-[-2.5vw] min-w-[12vw] py-3 px-4 rounded-lg bg-violet-400 text-white font-bold shadow-lg text-xl mt-4 hover:bg-violet-500 transition z-30"
+    <button class="btn-choose btn-choose-responsive absolute left-1/2 -translate-x-1/2 bottom-[-2.5vw] min-w-[12vw] py-3 px-4 rounded-lg bg-violet-400 text-white font-bold shadow-lg text-xl mt-4 hover:bg-violet-500 transition z-30"
       onclick="window.location.href='boxpvp1.html'">WYBIERZ</button>
   </div>
 </div>
       <!-- Karta 2 -->
-      <div class="card card-game relative flex flex-col items-center flex-1 min-w-[250px] max-w-[400px] w-[24vw] m-4 bg-slate-800/90 border border-violet-400 rounded-xl shadow-xl overflow-visible">
-  <div class="game-img-container relative w-full h-[clamp(140px,15vw,280px)] min-h-[140px] flex flex-col items-center justify-end pt-6">
+      <div class="card card-game card-game-responsive relative flex flex-col items-center flex-1 min-w-[250px] max-w-[400px] w-[24vw] m-4 bg-slate-800/90 border border-violet-400 rounded-xl shadow-xl overflow-visible">
+  <div class="game-img-container game-img-container-responsive relative w-full h-[clamp(140px,15vw,280px)] min-h-[140px] flex flex-col items-center justify-end pt-6">
     <img src="assets/anarchia.png" class="game-img absolute top-0 left-0 w-full h-full object-cover rounded-t-xl rounded-b-2xl brightness-105 drop-shadow-[0_0_15px_rgba(167,139,250,0.47)] object-[80%] z-10" alt="AnarchiaFFA"/>
     <img src="assets/anarchiaffa1.png"
-  class="game-title-img anarchiaffa-title absolute left-1/2 -translate-x-1/2 top-[-2.1vw]
+  class="game-title-img game-title-responsive anarchiaffa-title absolute left-1/2 -translate-x-1/2 top-[-2.1vw]
     h-[38px] md:h-[46px] w-auto pointer-events-none select-none z-20"
   alt="AnarchiaFFA"/>
-    <button class="btn-choose absolute left-1/2 -translate-x-1/2 bottom-[-2.5vw] min-w-[12vw] py-3 px-4 rounded-lg bg-violet-400 text-white font-bold shadow-lg text-xl mt-4 hover:bg-violet-500 transition z-30"
+    <button class="btn-choose btn-choose-responsive absolute left-1/2 -translate-x-1/2 bottom-[-2.5vw] min-w-[12vw] py-3 px-4 rounded-lg bg-violet-400 text-white font-bold shadow-lg text-xl mt-4 hover:bg-violet-500 transition z-30"
       onclick="window.location.href='anarchiaffa1.html'">WYBIERZ</button>
   </div>
 </div>
       <!-- Karta 3 -->
-      <div class="card card-game right relative flex flex-col items-center flex-1 min-w-[250px] max-w-[400px] w-[24vw] m-4 bg-slate-800/90 border border-violet-400 rounded-xl shadow-xl overflow-visible">
-        <div class="game-img-container relative w-full h-[clamp(140px,15vw,280px)] min-h-[140px] flex flex-col items-center justify-end pt-6">
+      <div class="card card-game card-game-responsive right relative flex flex-col items-center flex-1 min-w-[250px] max-w-[400px] w-[24vw] m-4 bg-slate-800/90 border border-violet-400 rounded-xl shadow-xl overflow-visible">
+        <div class="game-img-container game-img-container-responsive relative w-full h-[clamp(140px,15vw,280px)] min-h-[140px] flex flex-col items-center justify-end pt-6">
           <img src="assets/earthsmp.png" class="game-img absolute top-0 left-0 w-full h-full object-cover rounded-t-xl rounded-b-2xl brightness-105 drop-shadow-[0_0_15px_rgba(167,139,250,0.47)] z-10 pointer-events-none select-none">
           
           
           <img src="assets/earthsmp1.png"
-  class="game-title-img earthsmp-title absolute left-1/2 -translate-x-1/2 top-[-2.1vw]
+  class="game-title-img game-title-responsive earthsmp-title absolute left-1/2 -translate-x-1/2 top-[-2.1vw]
     h-[38px] md:h-[46px] w-auto pointer-events-none select-none z-20"
   alt="EarthSMP"/>
-          <button class="btn-choose absolute left-1/2 -translate-x-1/2 bottom-[-2.5vw] min-w-[12vw] py-3 px-4 rounded-lg bg-violet-400 text-white font-bold shadow-lg text-xl mt-4 hover:bg-violet-500 transition z-30"
+          <button class="btn-choose btn-choose-responsive absolute left-1/2 -translate-x-1/2 bottom-[-2.5vw] min-w-[12vw] py-3 px-4 rounded-lg bg-violet-400 text-white font-bold shadow-lg text-xl mt-4 hover:bg-violet-500 transition z-30"
             onclick="window.location.href='earthsmp1.html'">WYBIERZ</button>
         </div>
       </div>
@@ -205,8 +344,8 @@
   </section>
 
   <!-- Footer -->
-  <footer class="w-full font-minecraftia text-white mt-96 pb-8 bg-transparent custom-footer">
-    <div class="footer-top flex flex-col md:flex-row justify-between items-center max-w-5xl mx-auto mb-3 px-8 gap-10">
+  <footer class="footer-responsive w-full font-minecraftia text-white mt-96 pb-8 bg-transparent custom-footer">
+    <div class="footer-top footer-top-responsive flex flex-col md:flex-row justify-between items-center max-w-5xl mx-auto mb-3 px-8 gap-10">
       <div class="footer-main flex items-center gap-7">
         <img src="assets/logo.png" class="footer-logo w-[55px] h-[55px] object-contain drop-shadow-[0_0_14px_#a78bfa]" alt="logo"/>
         <div class="footer-copyright text-xl font-bold tracking-wider" style="text-shadow: 0 0 7px #a78bfa;">CraftCoreMC</div>
@@ -224,12 +363,11 @@
   <div class="footer-contact text-lg font-bold ml-2">SOCIAL MEDIA</div>
 </div>
     </div>
-    <div class="footer-bottom text-center text-base text-gray-300 leading-[1.5] max-w-2xl mx-auto">
+    <div class="footer-bottom footer-bottom-responsive text-center text-base text-gray-300 leading-[1.5] max-w-2xl mx-auto">
       <div>PL – SERWER CRAFTCOREMC.PL NIE JEST POWIAZANY Z FIRMA MOJANG LUB MICROSOFT.</div>
       <div>EN – CRAFTCOREMC.PL SERVER IS NOT ASSOCIATED WITH MOJANG OR MICROSOFT IN ANY WAY.</div>
     </div>
   </footer>
-</div>
 
 <!-- Koszyk w rogu -->
 <div id="cart-btn"
@@ -268,11 +406,15 @@
   // Moon orbit animacja
   const moon = document.querySelector('.moon-orbit');
   let moonAngle = 0;
-  const moonOrbitRadius = 162;
+  function getMoonOrbitRadius() {
+    const value = getComputedStyle(document.documentElement).getPropertyValue('--moon-radius').trim();
+    return parseFloat(value) || 162;
+  }
   function animateMoon() {
     moonAngle += 0.0025;
-    const x = Math.cos(moonAngle) * moonOrbitRadius;
-    const y = Math.sin(moonAngle) * moonOrbitRadius;
+    const radius = getMoonOrbitRadius();
+    const x = Math.cos(moonAngle) * radius;
+    const y = Math.sin(moonAngle) * radius;
     if (moon) moon.style.transform = `translate(-50%, -50%) translate(${x}px, ${y}px)`;
     requestAnimationFrame(animateMoon);
   }
