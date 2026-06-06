@@ -81,7 +81,6 @@
       --hero-actions-gap: clamp(1rem, 6vw, 4rem);
 
       --card-width: clamp(250px, 30vw, 400px);
-      --card-img-height: clamp(140px, 18vw, 280px);
       --card-title-height: clamp(32px, 4.2vw, 46px);
       --card-title-top: clamp(-2.2rem, -2.1vw, -1rem);
       --card-btn-bottom: clamp(-2.4rem, -2.5vw, -1.5rem);
@@ -92,6 +91,9 @@
       --planet-small: clamp(58px, 9vw, 130px);
       --moon-size: clamp(16px, 2vw, 32px);
       --moon-radius: clamp(48px, 9vw, 162px);
+
+      --gap-cards: clamp(2.5rem, 6vw, 3rem);
+      --section-pad-x: clamp(1rem, 4vw, 2rem);
     }
 
     .navbar-responsive { gap: var(--nav-gap) !important; }
@@ -129,13 +131,19 @@
       padding-inline: 1rem;
     }
 
+    .gamemode-grid-responsive {
+      gap: var(--gap-cards) !important;
+      padding-inline: var(--section-pad-x) !important;
+    }
+
     .card-game-responsive {
       width: var(--card-width) !important;
       max-width: 400px !important;
     }
     .game-img-container-responsive {
-      height: var(--card-img-height) !important;
-      min-height: 140px !important;
+      height: auto !important;
+      aspect-ratio: 16 / 10 !important;
+      min-height: 0 !important;
     }
     .game-title-responsive {
       height: var(--card-title-height) !important;
@@ -170,20 +178,12 @@
         margin-bottom: 1rem !important;
       }
       .hero-actions-responsive {
-  flex-direction: row !important;
-  flex-wrap: wrap !important;
-  gap: 1rem !important;
-  padding-inline: var(--section-pad-x) !important;
-}
-      .hero-actions-responsive a { justify-content: center; }
-      .gamemode-grid-responsive {
-        gap: 5rem !important;
-        padding-inline: 1rem;
+        flex-direction: row !important;
+        flex-wrap: wrap !important;
+        gap: 1rem !important;
+        padding-inline: var(--section-pad-x) !important;
       }
-      .card-game-responsive {
-  width: min(44vw, 400px) !important;
-  min-width: 0 !important;
-}
+      .hero-actions-responsive a { justify-content: center; }
       .footer-top-responsive {
         padding-inline: 1rem !important;
         gap: 1.5rem !important;
@@ -198,6 +198,28 @@
         top: auto !important;
         right: 1rem !important;
         bottom: 1rem !important;
+      }
+      section.text-center,
+      .gamemodes {
+        padding-inline: var(--section-pad-x) !important;
+      }
+    }
+
+    /* HAMBURGER dla trybów na mniejszych ekranach */
+    @media (max-width: 768px) {
+      #modes-hamburger {
+        display: flex !important;
+      }
+      #modes-grid {
+        display: none !important;
+      }
+      #modes-grid.modes-open {
+        display: flex !important;
+        flex-direction: column !important;
+        align-items: center !important;
+      }
+      #modes-grid.modes-open .card-game-responsive {
+        width: min(92vw, 400px) !important;
       }
     }
   </style>
@@ -300,7 +322,17 @@
   <section id="gamemodes" class="gamemodes pt-2">
     <h3 class="gamemodes-title-responsive mt-28 text-[2.5rem] md:text-[4.5rem] font-bold text-center text-white mb-4">WYBIERZ TRYB</h3>
     <p class="gamemodes-subtitle-responsive text-xl text-center mb-36 text-white">NA KTORYM CHCESZ DOKONAC ZAKUPU!</p>
-    <div class="gamemode-grid gamemode-grid-responsive flex flex-row flex-wrap justify-center gap-12 mb-16">
+
+    <!-- Hamburger (widoczny tylko na mniejszych ekranach) -->
+    <button id="modes-hamburger"
+      class="hidden mx-auto mb-8 flex-col gap-1.5 p-3 rounded-lg border-2 border-[#b97fff] bg-[#a855f7]/30"
+      onclick="toggleModes()" aria-label="Pokaż tryby" aria-expanded="false">
+      <span class="block w-7 h-[3px] bg-white rounded"></span>
+      <span class="block w-7 h-[3px] bg-white rounded"></span>
+      <span class="block w-7 h-[3px] bg-white rounded"></span>
+    </button>
+
+    <div id="modes-grid" class="gamemode-grid gamemode-grid-responsive flex flex-row flex-wrap justify-center gap-12 mb-16">
       <!-- Karta 1 -->
 <div class="card card-game card-game-responsive left relative flex flex-col items-center flex-1 min-w-[250px] max-w-[400px] w-[24vw] m-4 bg-slate-800/90 border border-violet-400 rounded-xl shadow-xl overflow-visible">
   <div class="game-img-container game-img-container-responsive relative w-full h-[clamp(140px,15vw,280px)] min-h-[140px] flex flex-col items-center justify-end pt-6">
@@ -402,6 +434,15 @@
     if (section) {
       section.scrollIntoView({behavior: 'smooth'});
     }
+  }
+
+  // Hamburger trybów
+  function toggleModes() {
+    const grid = document.getElementById('modes-grid');
+    const btn = document.getElementById('modes-hamburger');
+    const open = grid.classList.toggle('modes-open');
+    btn.setAttribute('aria-expanded', open ? 'true' : 'false');
+    btn.setAttribute('aria-label', open ? 'Ukryj tryby' : 'Pokaż tryby');
   }
 
   // Moon orbit animacja
