@@ -205,20 +205,13 @@
       }
     }
 
-    /* HAMBURGER dla trybów na mniejszych ekranach */
+    /* Tryby pod sobą na mniejszych ekranach (bez klikania) */
     @media (max-width: 768px) {
-      #modes-hamburger {
-        display: flex !important;
-      }
-      #modes-grid {
-        display: none !important;
-      }
-      #modes-grid.modes-open {
-        display: flex !important;
+      .gamemode-grid-responsive {
         flex-direction: column !important;
         align-items: center !important;
       }
-      #modes-grid.modes-open .card-game-responsive {
+      .card-game-responsive {
         width: min(92vw, 400px) !important;
       }
     }
@@ -322,17 +315,7 @@
   <section id="gamemodes" class="gamemodes pt-2">
     <h3 class="gamemodes-title-responsive mt-28 text-[2.5rem] md:text-[4.5rem] font-bold text-center text-white mb-4">WYBIERZ TRYB</h3>
     <p class="gamemodes-subtitle-responsive text-xl text-center mb-36 text-white">NA KTORYM CHCESZ DOKONAC ZAKUPU!</p>
-
-    <!-- Hamburger (widoczny tylko na mniejszych ekranach) -->
-    <button id="modes-hamburger"
-      class="hidden mx-auto mb-8 flex-col gap-1.5 p-3 rounded-lg border-2 border-[#b97fff] bg-[#a855f7]/30"
-      onclick="toggleModes()" aria-label="Pokaż tryby" aria-expanded="false">
-      <span class="block w-7 h-[3px] bg-white rounded"></span>
-      <span class="block w-7 h-[3px] bg-white rounded"></span>
-      <span class="block w-7 h-[3px] bg-white rounded"></span>
-    </button>
-
-    <div id="modes-grid" class="gamemode-grid gamemode-grid-responsive flex flex-row flex-wrap justify-center gap-12 mb-16">
+    <div class="gamemode-grid gamemode-grid-responsive flex flex-wrap md:flex-row flex-col justify-center gap-12 mb-16">
       <!-- Karta 1 -->
 <div class="card card-game card-game-responsive left relative flex flex-col items-center flex-1 min-w-[250px] max-w-[400px] w-[24vw] m-4 bg-slate-800/90 border border-violet-400 rounded-xl shadow-xl overflow-visible">
   <div class="game-img-container game-img-container-responsive relative w-full h-[clamp(140px,15vw,280px)] min-h-[140px] flex flex-col items-center justify-end pt-6">
@@ -434,15 +417,6 @@
     if (section) {
       section.scrollIntoView({behavior: 'smooth'});
     }
-  }
-
-  // Hamburger trybów
-  function toggleModes() {
-    const grid = document.getElementById('modes-grid');
-    const btn = document.getElementById('modes-hamburger');
-    const open = grid.classList.toggle('modes-open');
-    btn.setAttribute('aria-expanded', open ? 'true' : 'false');
-    btn.setAttribute('aria-label', open ? 'Ukryj tryby' : 'Pokaż tryby');
   }
 
   // Moon orbit animacja
