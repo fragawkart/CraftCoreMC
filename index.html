@@ -205,16 +205,20 @@
       }
     }
 
-    /* Tryby pod sobą na mniejszych ekranach (bez klikania) */
-    @media (max-width: 768px) {
-      .gamemode-grid-responsive {
-        flex-direction: column !important;
-        align-items: center !important;
-      }
-      .card-game-responsive {
-        width: min(92vw, 400px) !important;
-      }
-    }
+@media (max-width: 768px) {
+  .gamemode-grid-responsive {
+    flex-direction: column !important;
+    align-items: center !important;
+    justify-content: center !important;
+    padding-inline: 0 !important;
+  }
+  .card-game-responsive {
+    width: min(92vw, 400px) !important;
+    flex: 0 0 auto !important;
+    margin-left: auto !important;
+    margin-right: auto !important;
+  }
+}
   </style>
 </head>
 <body class="bg-gradient-to-b from-[#0a0a0a] via-[#1a1a2e] to-[#0a0a0a] min-h-screen relative overflow-x-hidden">
