@@ -194,36 +194,38 @@
       }
       .planet-big-responsive,
       .planet-small-responsive { opacity: 0.45; }
-      #cart-btn {
-        top: auto !important;
-        right: 1rem !important;
-        bottom: 1rem !important;
-      }
       section.text-center,
       .gamemodes {
         padding-inline: var(--section-pad-x) !important;
       }
     }
 
-@media (max-width: 768px) {
-  .gamemode-grid-responsive {
-    flex-direction: column !important;
-    align-items: center !important;
-    justify-content: center !important;
-    padding-inline: 0 !important;
-  }
-  .card-game-responsive {
-    width: min(92vw, 400px) !important;
-    flex: 0 0 auto !important;
-    margin-left: auto !important;
-    margin-right: auto !important;
-  }
-}
+    /* Tryby pod sobą na mniejszych ekranach (bez klikania) */
+    @media (max-width: 768px) {
+      .gamemode-grid-responsive {
+        flex-direction: column !important;
+        align-items: center !important;
+        justify-content: center !important;
+        padding-inline: 0 !important;
+      }
+      .card-game-responsive {
+        width: min(92vw, 400px) !important;
+        flex: 0 0 auto !important;
+        margin-left: auto !important;
+        margin-right: auto !important;
+      }
+    }
   </style>
 </head>
 <body class="bg-gradient-to-b from-[#0a0a0a] via-[#1a1a2e] to-[#0a0a0a] min-h-screen relative overflow-x-hidden">
 
-<!-- GWIAZDY (możesz dodać więcej lub inne współrzędne) -->
+  <!-- KOSZYK w rogu (jak na BoxPvP) -->
+  <div id="cart-btn" onclick="goToCartPage()" class="hidden fixed top-8 right-8 z-50 cursor-pointer">
+    <img src="assets/koszyk.png" alt="Koszyk" class="w-14 h-14 drop-shadow-lg"/>
+    <span id="cart-count" class="hidden absolute top-12 right-1 bg-white/0 text-[#9333ea] rounded-full text-base font-bold px-3 py-1 shadow-lg border-2 border-[#a78bfa] backdrop-blur-sm">0</span>
+  </div>
+
+  <!-- GWIAZDY -->
   <div class="absolute inset-0 z-0 pointer-events-none select-none">
     <div class="star" style="top:3vw; left:7vw; position:absolute;"><div class="star-dot"></div></div>
     <div class="star" style="top:10vw; left:16vw; position:absolute;"><div class="star-dot"></div></div>
@@ -251,113 +253,76 @@
 
   <!-- NAVBAR -->
   <div class="navbar-responsive flex flex-row flex-wrap justify-center items-center gap-3 sm:gap-20 my-4">
-  <button
-    onclick="location.reload()"
-    class="text-white font-bold font-minecraftia text-base sm:text-2xl tracking-wide px-3 sm:px-8 py-1.5 sm:py-3 rounded transition-all"
-    style="text-shadow: 0 0 8px #fff, 0 0 18px #a78bfa;"
-  >
-    STARTUJEMY
-  </button>
-  <button
-    class="text-white font-bold font-minecraftia text-base sm:text-2xl tracking-wide px-6 sm:px-12 py-2 sm:py-4 rounded-xl border-2 border-[#b97fff] bg-[#a855f7] transition-all"
-    style="box-shadow: 0 0 16px #a855f7, 0 0 36px #a78bfa, 0 0 46px #9333ea; text-shadow: 0 0 8px #fff, 0 0 18px #a78bfa;"
-    id="scroll-to-gamemodes"
-  >
-    SKLEP
-  </button>
-  <button
-    onclick="window.open('https://discord.gg/zjnQ2ufD','_blank')"
-    class="text-white font-bold font-minecraftia text-base sm:text-2xl tracking-wide px-3 sm:px-8 py-1.5 sm:py-3 rounded transition-all"
-    style="text-shadow: 0 0 8px #fff, 0 0 18px #a78bfa;"
-  >
-    DISCORD
-  </button>
-</div>
+    <button onclick="location.reload()"
+      class="text-white font-bold font-minecraftia text-base sm:text-2xl tracking-wide px-3 sm:px-8 py-1.5 sm:py-3 rounded transition-all"
+      style="text-shadow: 0 0 8px #fff, 0 0 18px #a78bfa;">STARTUJEMY</button>
+    <button id="scroll-to-gamemodes"
+      class="text-white font-bold font-minecraftia text-base sm:text-2xl tracking-wide px-6 sm:px-12 py-2 sm:py-4 rounded-xl border-2 border-[#b97fff] bg-[#a855f7] transition-all"
+      style="box-shadow: 0 0 16px #a855f7, 0 0 36px #a78bfa, 0 0 46px #9333ea; text-shadow: 0 0 8px #fff, 0 0 18px #a78bfa;">SKLEP</button>
+    <button onclick="window.open('https://discord.gg/zjnQ2ufD','_blank')"
+      class="text-white font-bold font-minecraftia text-base sm:text-2xl tracking-wide px-3 sm:px-8 py-1.5 sm:py-3 rounded transition-all"
+      style="text-shadow: 0 0 8px #fff, 0 0 18px #a78bfa;">DISCORD</button>
+  </div>
 
   <!-- HERO -->
   <section class="text-center pt-8">
-  <!-- Licznik graczy -->
-  <div class="online-box-responsive inline-block bg-[#1e1b3a] border border-[#a855f7] rounded-xl px-9 py-5 mt-20 mb-2 shadow-[0_0_16px_4px_#a855f76c,0_0_36px_0_#a855f733]">
-    <span class="text-[1.7rem] font-bold text-[#d1b3ff] mr-4" id="online-count">0</span>
-    <span class="text-[1.5rem] font-bold text-[#d1b3ff] tracking-wide" id="online-label">GRACZY ONLINE</span>
-  </div>
+    <div class="online-box-responsive inline-block bg-[#1e1b3a] border border-[#a855f7] rounded-xl px-9 py-5 mt-20 mb-2 shadow-[0_0_16px_4px_#a855f76c,0_0_36px_0_#a855f733]">
+      <span class="text-[1.7rem] font-bold text-[#d1b3ff] mr-4" id="online-count">0</span>
+      <span class="text-[1.5rem] font-bold text-[#d1b3ff] tracking-wide" id="online-label">GRACZY ONLINE</span>
+    </div>
 
-  <!-- Logo -->
-  <div class="logo-responsive mx-auto my-4 w-[clamp(180px,55vw,420px)]">
-    <img src="assets/logo.png"
-      class="w-full h-auto mx-auto drop-shadow-[0_0_80px_#a855f7] drop-shadow-[0_0_160px_#a855f7] drop-shadow-[0_0_240px_#9333ea] drop-shadow-[0_0_320px_#c4b5fd] brightness-125"
-      alt="Logo serwera CraftCoreMC – polski serwer Minecraft" />
-  </div>
+    <div class="logo-responsive mx-auto my-4 w-[clamp(180px,55vw,420px)]">
+      <img src="assets/logo.png"
+        class="w-full h-auto mx-auto drop-shadow-[0_0_80px_#a855f7] drop-shadow-[0_0_160px_#a855f7] drop-shadow-[0_0_240px_#9333ea] drop-shadow-[0_0_320px_#c4b5fd] brightness-125"
+        alt="Logo serwera CraftCoreMC – polski serwer Minecraft" />
+    </div>
 
-  <!-- Główny nagłówek strony -->
-  <h1 class="hero-title-responsive mt-28 text-3xl md:text-5xl font-extrabold tracking-wide text-white" style="text-shadow:0 0 12px #fff, 0 0 18px #a855f7;">
-    CraftCoreMC – Dołącz do niesamowitego świata Minecraft!
-  </h1>
+    <h1 class="hero-title-responsive mt-28 text-3xl md:text-5xl font-extrabold tracking-wide text-white" style="text-shadow:0 0 12px #fff, 0 0 18px #a855f7;">
+      CraftCoreMC – Dołącz do niesamowitego świata Minecraft!
+    </h1>
 
-  <!-- Przyciski -->
-  <div class="hero-actions-responsive flex justify-center items-center gap-16 mt-8 mb-12">
-    <!-- Kopiuj IP -->
-    <button
-      onclick="copyIP()"
-      class="hero-btn-responsive font-bold text-white font-minecraftia text-2xl px-12 py-4 rounded-xl border-2 border-[#b97fff] bg-[#a855f7] shadow-[0_0_16px_#a855f7,0_0_36px_#a78bfa,0_0_46px_#9333ea] transition-all"
-      style="text-shadow: 0 0 8px #fff, 0 0 18px #a78bfa;">
-      SKOPIUJ IP
-    </button>
+    <div class="hero-actions-responsive flex justify-center items-center gap-16 mt-8 mb-12">
+      <button onclick="copyIP()"
+        class="hero-btn-responsive font-bold text-white font-minecraftia text-2xl px-12 py-4 rounded-xl border-2 border-[#b97fff] bg-[#a855f7] shadow-[0_0_16px_#a855f7,0_0_36px_#a78bfa,0_0_46px_#9333ea] transition-all"
+        style="text-shadow: 0 0 8px #fff, 0 0 18px #a78bfa;">SKOPIUJ IP</button>
 
-    <!-- Discord -->
-    <a href="https://discord.gg/zjnQ2ufD" target="_blank" class="flex items-center gap-4 hover:brightness-110" style="text-decoration:none;">
-      <img src="assets/discord.png" class="w-10 h-10" alt="Discord" />
-      <div class="flex flex-col ml-1 leading-tight text-left">
-        <span class="text-white text-base font-bold -mb-1" style="letter-spacing:1px;">DOŁĄCZ DO</span>
-        <span class="text-violet-300 font-bold text-lg" style="text-shadow:0 0 8px #a78bfa,0 0 10px #9333ea; letter-spacing:1px;">SPOŁECZNOŚCI</span>
-      </div>
-    </a>
-  </div>
-</section>
+      <a href="https://discord.gg/zjnQ2ufD" target="_blank" class="flex items-center gap-4 hover:brightness-110" style="text-decoration:none;">
+        <img src="assets/discord.png" class="w-10 h-10" alt="Discord" />
+        <div class="flex flex-col ml-1 leading-tight text-left">
+          <span class="text-white text-base font-bold -mb-1" style="letter-spacing:1px;">DOŁĄCZ DO</span>
+          <span class="text-violet-300 font-bold text-lg" style="text-shadow:0 0 8px #a78bfa,0 0 10px #9333ea; letter-spacing:1px;">SPOŁECZNOŚCI</span>
+        </div>
+      </a>
+    </div>
+  </section>
 
-  <!-- Tryby gry (gamemodes) -->
+  <!-- Tryby gry -->
   <section id="gamemodes" class="gamemodes pt-2">
     <h3 class="gamemodes-title-responsive mt-28 text-[2.5rem] md:text-[4.5rem] font-bold text-center text-white mb-4">WYBIERZ TRYB</h3>
     <p class="gamemodes-subtitle-responsive text-xl text-center mb-36 text-white">NA KTORYM CHCESZ DOKONAC ZAKUPU!</p>
     <div class="gamemode-grid gamemode-grid-responsive flex flex-wrap md:flex-row flex-col justify-center gap-12 mb-16">
       <!-- Karta 1 -->
-<div class="card card-game card-game-responsive left relative flex flex-col items-center flex-1 min-w-[250px] max-w-[400px] w-[24vw] m-4 bg-slate-800/90 border border-violet-400 rounded-xl shadow-xl overflow-visible">
-  <div class="game-img-container game-img-container-responsive relative w-full h-[clamp(140px,15vw,280px)] min-h-[140px] flex flex-col items-center justify-end pt-6">
-    <img src="assets/boxpvp.png"
-         class="game-img absolute top-0 left-0 w-full h-full object-cover rounded-t-xl rounded-b-2xl brightness-105 drop-shadow-[0_0_15px_rgba(167,139,250,0.47)] object-[80%] z-10"
-         alt="BOXPVP"/>
-    <img src="assets/boxpvp1.png"
-         class="game-title-img game-title-responsive boxpvp-title absolute left-1/2 -translate-x-1/2 top-[-2.5vw]
-    h-[38px] md:h-[46px] w-auto pointer-events-none select-none z-20"
-         alt="BOXPVP"/>
-    <button class="btn-choose btn-choose-responsive absolute left-1/2 -translate-x-1/2 bottom-[-2.5vw] min-w-[12vw] py-3 px-4 rounded-lg bg-violet-400 text-white font-bold shadow-lg text-xl mt-4 hover:bg-violet-500 transition z-30"
-      onclick="window.location.href='boxpvp1.html'">WYBIERZ</button>
-  </div>
-</div>
+      <div class="card card-game card-game-responsive left relative flex flex-col items-center flex-1 min-w-[250px] max-w-[400px] w-[24vw] m-4 bg-slate-800/90 border border-violet-400 rounded-xl shadow-xl overflow-visible">
+        <div class="game-img-container game-img-container-responsive relative w-full h-[clamp(140px,15vw,280px)] min-h-[140px] flex flex-col items-center justify-end pt-6">
+          <img src="assets/boxpvp.png" class="game-img absolute top-0 left-0 w-full h-full object-cover rounded-t-xl rounded-b-2xl brightness-105 drop-shadow-[0_0_15px_rgba(167,139,250,0.47)] object-[80%] z-10" alt="BOXPVP"/>
+          <img src="assets/boxpvp1.png" class="game-title-img game-title-responsive boxpvp-title absolute left-1/2 -translate-x-1/2 top-[-2.5vw] h-[38px] md:h-[46px] w-auto pointer-events-none select-none z-20" alt="BOXPVP"/>
+          <button class="btn-choose btn-choose-responsive absolute left-1/2 -translate-x-1/2 bottom-[-2.5vw] min-w-[12vw] py-3 px-4 rounded-lg bg-violet-400 text-white font-bold shadow-lg text-xl mt-4 hover:bg-violet-500 transition z-30" onclick="window.location.href='boxpvp1.html'">WYBIERZ</button>
+        </div>
+      </div>
       <!-- Karta 2 -->
       <div class="card card-game card-game-responsive relative flex flex-col items-center flex-1 min-w-[250px] max-w-[400px] w-[24vw] m-4 bg-slate-800/90 border border-violet-400 rounded-xl shadow-xl overflow-visible">
-  <div class="game-img-container game-img-container-responsive relative w-full h-[clamp(140px,15vw,280px)] min-h-[140px] flex flex-col items-center justify-end pt-6">
-    <img src="assets/anarchia.png" class="game-img absolute top-0 left-0 w-full h-full object-cover rounded-t-xl rounded-b-2xl brightness-105 drop-shadow-[0_0_15px_rgba(167,139,250,0.47)] object-[80%] z-10" alt="AnarchiaFFA"/>
-    <img src="assets/anarchiaffa1.png"
-  class="game-title-img game-title-responsive anarchiaffa-title absolute left-1/2 -translate-x-1/2 top-[-2.1vw]
-    h-[38px] md:h-[46px] w-auto pointer-events-none select-none z-20"
-  alt="AnarchiaFFA"/>
-    <button class="btn-choose btn-choose-responsive absolute left-1/2 -translate-x-1/2 bottom-[-2.5vw] min-w-[12vw] py-3 px-4 rounded-lg bg-violet-400 text-white font-bold shadow-lg text-xl mt-4 hover:bg-violet-500 transition z-30"
-      onclick="window.location.href='anarchiaffa1.html'">WYBIERZ</button>
-  </div>
-</div>
+        <div class="game-img-container game-img-container-responsive relative w-full h-[clamp(140px,15vw,280px)] min-h-[140px] flex flex-col items-center justify-end pt-6">
+          <img src="assets/anarchia.png" class="game-img absolute top-0 left-0 w-full h-full object-cover rounded-t-xl rounded-b-2xl brightness-105 drop-shadow-[0_0_15px_rgba(167,139,250,0.47)] object-[80%] z-10" alt="AnarchiaFFA"/>
+          <img src="assets/anarchiaffa1.png" class="game-title-img game-title-responsive anarchiaffa-title absolute left-1/2 -translate-x-1/2 top-[-2.1vw] h-[38px] md:h-[46px] w-auto pointer-events-none select-none z-20" alt="AnarchiaFFA"/>
+          <button class="btn-choose btn-choose-responsive absolute left-1/2 -translate-x-1/2 bottom-[-2.5vw] min-w-[12vw] py-3 px-4 rounded-lg bg-violet-400 text-white font-bold shadow-lg text-xl mt-4 hover:bg-violet-500 transition z-30" onclick="window.location.href='anarchiaffa1.html'">WYBIERZ</button>
+        </div>
+      </div>
       <!-- Karta 3 -->
       <div class="card card-game card-game-responsive right relative flex flex-col items-center flex-1 min-w-[250px] max-w-[400px] w-[24vw] m-4 bg-slate-800/90 border border-violet-400 rounded-xl shadow-xl overflow-visible">
         <div class="game-img-container game-img-container-responsive relative w-full h-[clamp(140px,15vw,280px)] min-h-[140px] flex flex-col items-center justify-end pt-6">
           <img src="assets/earthsmp.png" class="game-img absolute top-0 left-0 w-full h-full object-cover rounded-t-xl rounded-b-2xl brightness-105 drop-shadow-[0_0_15px_rgba(167,139,250,0.47)] z-10 pointer-events-none select-none">
-          
-          
-          <img src="assets/earthsmp1.png"
-  class="game-title-img game-title-responsive earthsmp-title absolute left-1/2 -translate-x-1/2 top-[-2.1vw]
-    h-[38px] md:h-[46px] w-auto pointer-events-none select-none z-20"
-  alt="EarthSMP"/>
-          <button class="btn-choose btn-choose-responsive absolute left-1/2 -translate-x-1/2 bottom-[-2.5vw] min-w-[12vw] py-3 px-4 rounded-lg bg-violet-400 text-white font-bold shadow-lg text-xl mt-4 hover:bg-violet-500 transition z-30"
-            onclick="window.location.href='earthsmp1.html'">WYBIERZ</button>
+          <img src="assets/earthsmp1.png" class="game-title-img game-title-responsive earthsmp-title absolute left-1/2 -translate-x-1/2 top-[-2.1vw] h-[38px] md:h-[46px] w-auto pointer-events-none select-none z-20" alt="EarthSMP"/>
+          <button class="btn-choose btn-choose-responsive absolute left-1/2 -translate-x-1/2 bottom-[-2.5vw] min-w-[12vw] py-3 px-4 rounded-lg bg-violet-400 text-white font-bold shadow-lg text-xl mt-4 hover:bg-violet-500 transition z-30" onclick="window.location.href='earthsmp1.html'">WYBIERZ</button>
         </div>
       </div>
     </div>
@@ -371,17 +336,11 @@
         <div class="footer-copyright text-xl font-bold tracking-wider" style="text-shadow: 0 0 7px #a78bfa;">CraftCoreMC</div>
       </div>
       <div class="footer-socials flex items-center gap-2">
-  <a href="https://instagram.com" target="_blank" rel="noopener">
-    <img src="assets/instagram.png" class="w-7 h-7 transition hover:brightness-125 hover:drop-shadow-[0_0_13px_#a78bfa]" alt="Instagram">
-  </a>
-  <a href="https://tiktok.com" target="_blank" rel="noopener">
-    <img src="assets/tiktok.png" class="w-7 h-7 transition hover:brightness-125 hover:drop-shadow-[0_0_13px_#a78bfa]" alt="TikTok">
-  </a>
-  <a href="https://facebook.com" target="_blank" rel="noopener">
-    <img src="assets/facebook.png" class="w-7 h-7 transition hover:brightness-125 hover:drop-shadow-[0_0_13px_#a78bfa]" alt="Facebook">
-  </a>
-  <div class="footer-contact text-lg font-bold ml-2">SOCIAL MEDIA</div>
-</div>
+        <a href="https://instagram.com" target="_blank" rel="noopener"><img src="assets/instagram.png" class="w-7 h-7 transition hover:brightness-125 hover:drop-shadow-[0_0_13px_#a78bfa]" alt="Instagram"></a>
+        <a href="https://tiktok.com" target="_blank" rel="noopener"><img src="assets/tiktok.png" class="w-7 h-7 transition hover:brightness-125 hover:drop-shadow-[0_0_13px_#a78bfa]" alt="TikTok"></a>
+        <a href="https://facebook.com" target="_blank" rel="noopener"><img src="assets/facebook.png" class="w-7 h-7 transition hover:brightness-125 hover:drop-shadow-[0_0_13px_#a78bfa]" alt="Facebook"></a>
+        <div class="footer-contact text-lg font-bold ml-2">SOCIAL MEDIA</div>
+      </div>
     </div>
     <div class="footer-bottom footer-bottom-responsive text-center text-base text-gray-300 leading-[1.5] max-w-2xl mx-auto">
       <div>PL – SERWER CRAFTCOREMC.PL NIE JEST POWIAZANY Z FIRMA MOJANG LUB MICROSOFT.</div>
@@ -389,105 +348,92 @@
     </div>
   </footer>
 
-<!-- Koszyk w rogu -->
-<div id="cart-btn" onclick="goToCartPage()" class="hidden fixed top-8 right-8 z-50 cursor-pointer">
-  <img src="assets/koszyk.png" alt="Koszyk" class="w-14 h-14 drop-shadow-lg"/>
-  <span id="cart-count" class="hidden absolute top-12 right-1 bg-white/0 text-[#9333ea] rounded-full text-base font-bold px-3 py-1 shadow-lg border-2 border-[#a78bfa] backdrop-blur-sm">0</span>
-</div>
-
-<!-- Skrypty JS -->
-<script>
-  function copyIP() {
-    navigator.clipboard.writeText("craftcoremc.pl").then(() => {
-      snackbar("IP serwera skopiowany!");
-    });
-  }
-
-  function openLink(url) {
-    window.open(url, '_blank');
-  }
-
-  function scrollToSection(id) {
-    const section = document.getElementById(id);
-    if (section) {
-      section.scrollIntoView({behavior: 'smooth'});
-    }
-  }
-
-  // Moon orbit animacja
-  const moon = document.querySelector('.moon-orbit');
-  let moonAngle = 0;
-  function getMoonOrbitRadius() {
-    const value = getComputedStyle(document.documentElement).getPropertyValue('--moon-radius').trim();
-    return parseFloat(value) || 162;
-  }
-  function animateMoon() {
-    moonAngle += 0.0025;
-    const radius = getMoonOrbitRadius();
-    const x = Math.cos(moonAngle) * radius;
-    const y = Math.sin(moonAngle) * radius;
-    if (moon) moon.style.transform = `translate(-50%, -50%) translate(${x}px, ${y}px)`;
-    requestAnimationFrame(animateMoon);
-  }
-  if (moon) animateMoon();
-
-  // Licznik graczy
-  function updatePlayerCount() {
-    fetch("http://localhost:3000/players")
-      .then(response => response.json())
-      .then(data => {
-        // Twoj backend zwraca: { online: X, max: Y }
-        const online = typeof data.online === "number" ? data.online : 0;
-        document.getElementById("online-count").textContent = online;
-        document.getElementById("online-label").textContent =
-          online === 1 ? "GRACZ ONLINE" : "GRACZY ONLINE";
-      })
-      .catch(() => {
-        document.getElementById("online-count").textContent = "?";
-        document.getElementById("online-label").textContent = "GRACZY ONLINE";
+  <!-- Skrypty JS -->
+  <script>
+    function copyIP() {
+      navigator.clipboard.writeText("craftcoremc.pl").then(() => {
+        alert("IP serwera skopiowany!");
       });
-  }
-  updatePlayerCount();
-  setInterval(updatePlayerCount, 5000); // 
+    }
 
-  window.addEventListener('DOMContentLoaded', () => {
-    if (window.location.hash) {
-      const section = document.querySelector(window.location.hash);
-      if (section) {
-        section.scrollIntoView({behavior: 'smooth'});
+    function openLink(url) { window.open(url, '_blank'); }
+
+    function scrollToSection(id) {
+      const section = document.getElementById(id);
+      if (section) section.scrollIntoView({behavior: 'smooth'});
+    }
+
+    // Moon orbit
+    const moon = document.querySelector('.moon-orbit');
+    let moonAngle = 0;
+    function getMoonOrbitRadius() {
+      const value = getComputedStyle(document.documentElement).getPropertyValue('--moon-radius').trim();
+      return parseFloat(value) || 162;
+    }
+    function animateMoon() {
+      moonAngle += 0.0025;
+      const radius = getMoonOrbitRadius();
+      const x = Math.cos(moonAngle) * radius;
+      const y = Math.sin(moonAngle) * radius;
+      if (moon) moon.style.transform = `translate(-50%, -50%) translate(${x}px, ${y}px)`;
+      requestAnimationFrame(animateMoon);
+    }
+    if (moon) animateMoon();
+
+    // Licznik graczy
+    function updatePlayerCount() {
+      fetch("http://localhost:3000/players")
+        .then(response => response.json())
+        .then(data => {
+          const online = typeof data.online === "number" ? data.online : 0;
+          document.getElementById("online-count").textContent = online;
+          document.getElementById("online-label").textContent =
+            online === 1 ? "GRACZ ONLINE" : "GRACZY ONLINE";
+        })
+        .catch(() => {
+          document.getElementById("online-count").textContent = "?";
+          document.getElementById("online-label").textContent = "GRACZY ONLINE";
+        });
+    }
+    updatePlayerCount();
+    setInterval(updatePlayerCount, 5000);
+
+    window.addEventListener('DOMContentLoaded', () => {
+      if (window.location.hash) {
+        const section = document.querySelector(window.location.hash);
+        if (section) section.scrollIntoView({behavior: 'smooth'});
+      }
+      updateCartUI();
+    });
+
+    // Koszyk — identyczna logika jak na BoxPvP (classList)
+    function addToCart(name, price) {
+      let cart = JSON.parse(localStorage.getItem('cart')) || [];
+      cart.push({name, price});
+      localStorage.setItem('cart', JSON.stringify(cart));
+      updateCartUI();
+    }
+
+    function updateCartUI() {
+      let cart = JSON.parse(localStorage.getItem('cart')) || [];
+      let btn = document.getElementById('cart-btn');
+      let count = document.getElementById('cart-count');
+      if (cart.length > 0) {
+        btn.classList.remove('hidden');
+        count.classList.remove('hidden');
+        count.textContent = cart.length;
+      } else {
+        btn.classList.add('hidden');
+        count.classList.add('hidden');
       }
     }
-    updateCartUI();
-  });
 
-  function addToCart(name, price) {
-    let cart = JSON.parse(localStorage.getItem('cart')) || [];
-    cart.push({name, price});
-    localStorage.setItem('cart', JSON.stringify(cart));
-    updateCartUI();
-  }
+    function goToCartPage() { window.location.href = 'koszyk.html'; }
 
-  function updateCartUI() {
-    let cart = JSON.parse(localStorage.getItem('cart')) || [];
-    let btn = document.getElementById('cart-btn');
-    let count = document.getElementById('cart-count');
-    if (cart.length > 0) {
-      btn.style.display = 'block';
-      count.style.display = 'block';
-      count.textContent = cart.length;
-    } else {
-      btn.style.display = 'none';
-      count.style.display = 'none';
-    }
-  }
-
-  function goToCartPage() {
-    window.location.href = 'koszyk.html';
-  }
-  document.getElementById('scroll-to-gamemodes').addEventListener('click', function(e) {
-  e.preventDefault();
-  document.getElementById('gamemodes').scrollIntoView({ behavior: 'smooth' });
-});
-</script>
+    document.getElementById('scroll-to-gamemodes').addEventListener('click', function(e) {
+      e.preventDefault();
+      document.getElementById('gamemodes').scrollIntoView({ behavior: 'smooth' });
+    });
+  </script>
 </body>
 </html>
