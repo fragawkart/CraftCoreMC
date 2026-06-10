@@ -390,18 +390,9 @@
   </footer>
 
 <!-- Koszyk w rogu -->
-<div id="cart-btn"
-     onclick="goToCartPage()"
-     class="hidden fixed top-8 right-8 z-[9999] cursor-pointer">
-  <img src="assets/koszyk.png"
-       alt="Koszyk"
-       class="w-14 h-14"
-       style="image-rendering:auto; filter:drop-shadow(0 0 14px #a78bfa) drop-shadow(0 0 22px #9333ea);" />
-  <span id="cart-count"
-        class="hidden absolute top-[52px] right-1 bg-white/0 text-[#9333ea] rounded-full text-[1.1rem] font-bold px-4 py-1
-        shadow-[0_0_16px_#a78bfa,0_0_22px_#fff8] border-[2.5px] border-[#a78bfa] backdrop-blur-[2.5px]">
-    0
-  </span>
+<div id="cart-btn" onclick="goToCartPage()" class="hidden fixed top-8 right-8 z-50 cursor-pointer">
+  <img src="assets/koszyk.png" alt="Koszyk" class="w-14 h-14 drop-shadow-lg"/>
+  <span id="cart-count" class="hidden absolute top-12 right-1 bg-white/0 text-[#9333ea] rounded-full text-base font-bold px-3 py-1 shadow-lg border-2 border-[#a78bfa] backdrop-blur-sm">0</span>
 </div>
 
 <!-- Skrypty JS -->
