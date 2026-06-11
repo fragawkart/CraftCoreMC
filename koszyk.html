@@ -5,6 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <title>Koszyk | CraftCoreMC</title>
   <style>
+    * { box-sizing: border-box; }
     body {
       min-height: 100vh;
       margin: 0;
@@ -21,24 +22,17 @@
       font-style: normal;
     }
 
-    /* TŁO Z GWIAZDAMI — osobna warstwa, nie wpływa na układ treści */
-    .background {
-      position: fixed;
-      inset: 0;
-      z-index: 0;
-      pointer-events: none;
-    }
+    /* TŁO Z GWIAZDAMI */
+    .background { position: fixed; inset: 0; z-index: 0; pointer-events: none; }
     @keyframes twinkle { 0%,100%{opacity:.85} 50%{opacity:1} }
     .star {
       position: absolute;
       width: 6px; height: 6px;
-      pointer-events: none;
-      z-index: 0;
+      pointer-events: none; z-index: 0;
       animation: twinkle 2.4s infinite ease-in-out;
     }
     .star-dot {
-      position: absolute;
-      left: 50%; top: 50%;
+      position: absolute; left: 50%; top: 50%;
       width: 4px; height: 4px;
       background: white; border-radius: 50%;
       transform: translate(-50%, -50%);
@@ -46,48 +40,41 @@
       opacity: 0.7;
     }
     .star::before, .star::after {
-      content: '';
-      position: absolute;
-      left: 50%; top: 50%;
-      background: white; border-radius: 1px;
-      opacity: 0.19;
+      content: ''; position: absolute; left: 50%; top: 50%;
+      background: white; border-radius: 1px; opacity: 0.19;
       box-shadow: 0 0 2px 0.5px #fff, 0 0 4px 1px #b6c8ff;
       transform: translate(-50%, -50%);
     }
     .star::before { width: 12px; height: 2px; }
     .star::after  { width: 2px; height: 12px; }
 
-    /* JEDEN main-content, wyśrodkowany, nad tłem */
+    /* TREŚĆ */
     .main-content {
-      position: relative;
-      z-index: 1;
+      position: relative; z-index: 1;
       min-height: 85vh;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: flex-start;
-      padding-top: 54px;
+      display: flex; flex-direction: column;
+      align-items: center; justify-content: flex-start;
+      padding: clamp(24px, 6vw, 54px) clamp(12px, 4vw, 24px) 40px;
+    }
+    .cart-box, .paybox {
+      width: 100%;
+      max-width: 440px;
+      margin-inline: auto;
     }
     .cart-box {
       background: rgba(30,41,59,0.97);
-      border-radius: 22px;
+      border-radius: clamp(14px, 3vw, 22px);
       box-shadow: 0 0 40px #a78bfa44, 0 0 70px #9333ea22;
       border: 3px solid #a78bfa;
-      max-width: 400px;
-      width: 97vw;
       margin-top: 18px;
-      padding: 32px 28px 24px 28px;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
+      padding: clamp(18px, 5vw, 32px) clamp(16px, 5vw, 28px) clamp(16px, 4vw, 24px);
+      display: flex; flex-direction: column; align-items: center;
     }
     .cart-title {
       color: #a78bfa;
-      font-size: 2.1rem;
-      margin-bottom: 1.5rem;
-      text-align: center;
-      text-shadow: 0 0 20px #a78bfa77;
-      letter-spacing: 0.8px;
+      font-size: clamp(1.4rem, 6vw, 2.1rem);
+      margin-bottom: 1.5rem; text-align: center;
+      text-shadow: 0 0 20px #a78bfa77; letter-spacing: 0.8px;
     }
     .cart-list { width: 100%; margin-bottom: 28px; }
     .cart-item {
@@ -95,98 +82,80 @@
       border-radius: 13px;
       box-shadow: 0 0 8px #a78bfa33;
       margin-bottom: 18px;
-      padding: 13px 13px 10px 13px;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      font-size: 1.17rem;
+      padding: 13px;
+      display: flex; align-items: center; justify-content: space-between;
+      gap: 10px;
+      font-size: clamp(0.95rem, 3.6vw, 1.17rem);
       border: 1.5px solid #a78bfa33;
     }
+    .cart-item span { min-width: 0; word-break: break-word; }
     .cart-item:last-child { margin-bottom: 0; }
     .cart-remove {
-      background: none;
-      border: none;
-      color: #fff;
-      font-size: 1.2rem;
-      cursor: pointer;
-      margin-left: 18px;
-      border-radius: 8px;
-      padding: 4px 8px;
+      background: none; border: none; color: #fff;
+      font-size: 1.2rem; cursor: pointer;
+      border-radius: 8px; padding: 4px 8px;
+      flex-shrink: 0;
       transition: background 0.18s, color 0.17s;
       box-shadow: 0 0 0.2em #a78bfa33;
     }
     .cart-remove:hover { color: #a78bfa; background: #1a0c3e; }
     .cart-empty {
-      color: #aaa;
-      font-size: 1.11rem;
-      text-align: center;
+      color: #aaa; font-size: 1.11rem; text-align: center;
       padding: 25px 0 18px 0;
     }
     .cart-sum {
       margin: 0.6em 0 1.5em 0;
-      font-size: 1.4rem;
-      text-align: center;
-      color: #fff;
-      text-shadow: 0 0 6px #a78bfa66;
-      letter-spacing: 1px;
+      font-size: clamp(1.1rem, 4.5vw, 1.4rem);
+      text-align: center; color: #fff;
+      text-shadow: 0 0 6px #a78bfa66; letter-spacing: 1px;
     }
     .cart-actions {
-      display: flex;
-      flex-wrap: wrap;
-      justify-content: center;
-      gap: 16px;
-      margin-top: 14px;
+      display: flex; flex-wrap: wrap;
+      justify-content: center; gap: 12px;
+      margin-top: 14px; width: 100%;
     }
     .btn-purple {
       background: linear-gradient(90deg,#a78bfa 5%, #9333ea 95%);
-      border-radius: 12px;
-      border: none;
-      color: white;
+      border-radius: 12px; border: none; color: white;
       font-family: 'Minecraftia', monospace;
-      font-size: 1.17rem;
+      font-size: clamp(0.95rem, 3.4vw, 1.17rem);
       padding: 0.82em 1.55em;
-      font-weight: bold;
-      letter-spacing: 1.2px;
+      font-weight: bold; letter-spacing: 1.2px;
       box-shadow: 0 0 12px #a78bfa55, 0 0 18px #9333ea33;
-      cursor: pointer;
-      transition: all 0.16s;
+      cursor: pointer; transition: all 0.16s;
       text-shadow: 0 0 4px #fff;
     }
-    .btn-purple:hover {
-      background: #7e22ce;
-      box-shadow: 0 0 20px #a78bfa, 0 0 24px #9333ea88;
-    }
-    .btn-secondary {
-      background: #232840 !important;
-      color: #fff;
-      border: 1.5px solid #a78bfa;
-    }
+    .btn-purple:hover { background: #7e22ce; box-shadow: 0 0 20px #a78bfa, 0 0 24px #9333ea88; }
+    .btn-secondary { background: #232840 !important; color: #fff; border: 1.5px solid #a78bfa; }
     .paybox {
-      position: relative;
-      z-index: 1;
+      position: relative; z-index: 1;
       background: rgba(30,41,59,0.92);
-      border-radius: 17px;
-      padding: 28px 22px 17px 22px;
+      border-radius: clamp(12px, 3vw, 17px);
+      padding: clamp(18px, 5vw, 28px) clamp(14px, 4vw, 22px) clamp(14px, 3vw, 17px);
       margin-top: 1.7em;
       border: 2px solid #a78bfa;
       box-shadow: 0 0 32px #a78bfa33;
-      max-width: 400px;
-      width: 97vw;
-      text-align: center;
-      display: none;
+      text-align: center; display: none;
     }
     .pay-methods {
-      display: flex;
-      justify-content: center;
-      gap: 22px;
+      display: flex; flex-wrap: wrap;
+      justify-content: center; gap: clamp(12px, 4vw, 22px);
       margin: 20px 0 7px 0;
     }
-    .pay-info { color: #a78bfa; margin-top: 20px; font-size: 1.08rem; }
+    .pay-info { color: #a78bfa; margin-top: 20px; font-size: clamp(0.95rem, 3.6vw, 1.08rem); }
 
+    /* TELEFON — przyciski na pełną szerokość, jeden pod drugim */
     @media (max-width: 480px) {
-      .cart-box, .paybox { padding: 12px 4vw 12px 4vw; }
-      .cart-title { font-size: 1.4rem; }
-      .btn-purple { font-size: 1rem; }
+      .cart-actions { flex-direction: column; }
+      .cart-actions .btn-purple { width: 100%; }
+      .pay-methods .btn-purple { flex: 1 1 120px; }
+    }
+
+    /* IKONA KOSZYKA — skalowanie na telefonie */
+    @media (max-width: 480px) {
+      #cart-btn { top: 16px !important; right: 16px !important; }
+      #cart-btn img { width: 46px !important; height: 46px !important; }
+      #cart-count { top: 40px !important; }
     }
   </style>
 </head>
@@ -218,7 +187,7 @@
     </div>
 
     <div id="paybox" class="paybox">
-      <div style="color:#a78bfa; font-size:1.2rem; font-weight:bold; margin-bottom:12px;">Wybierz metodę płatności:</div>
+      <div style="color:#a78bfa; font-size:clamp(1rem,4vw,1.2rem); font-weight:bold; margin-bottom:12px;">Wybierz metodę płatności:</div>
       <div class="pay-methods">
         <button class="btn-purple" onclick="pay('blik')">BLIK</button>
         <button class="btn-purple" onclick="pay('przelew')">Przelew</button>
@@ -228,7 +197,7 @@
     </div>
   </div>
 
-  <!-- IKONA KOSZYKA W ROGU (spójna z BoxPvP/index) -->
+  <!-- IKONA KOSZYKA W ROGU -->
   <div id="cart-btn" onclick="goToCartPage()" style="display:none; position:fixed; top:32px; right:32px; z-index:9999; cursor:pointer;">
     <img src="assets/koszyk.png" alt="Koszyk"
       style="width:56px; height:56px; image-rendering:auto; filter:drop-shadow(0 0 14px #a78bfa) drop-shadow(0 0 22px #9333ea);" />
